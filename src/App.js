@@ -17,7 +17,9 @@ export default class App extends React.Component {
                 <Route path='/' exact component={Login}/>
                 <Route path='/register' component={Register}  />
                 <Route path='/home' component={Home}/>
-                <Route path='/table'  render={(props) => <Home s{...props} component={<Table/>}/>}/>
+                <Route path='/productsTable'  render={(props) => <Home s{...props} component={<Table data='products'/>}/>}/>
+                <Route path='/shopsTable'  render={(props) => <Home s{...props} component={<Table data='shops'/>}/>}/>
+                <Route path='/sendersTable'  render={(props) => <Home s{...props} component={<Table data='senders'/>}/>}/>
             </Router>
         );
     }

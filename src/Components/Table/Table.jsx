@@ -3,85 +3,95 @@ import MaterialTable from 'material-table';
 import './Table.css';
 
 class Table extends Component {
-    state = {
-        columns: [
-            {
-                title: 'Name',
-                field: 'name'
-            }, 
-            {
-                title: 'Type',
-                field: 'type'
-            },
-            {
-                title: 'Constly',
-                field: 'constly'
-            },
-            {
-                title: 'Price',
-                field: 'price'
-            },
-            {
-                title: 'Quantity',
-                field: 'quantity'
-            },
-            {
-                title: 'Status',
-                field: 'status'
-            },
+    constructor(props) {
+        super(props);
+        if(this.props.data === 'products') {
+            this.state = {
+                columns: [
+                    {
+                        title: 'Name',
+                        field: 'name'
+                    }, 
+                    {
+                        title: 'Type',
+                        field: 'type'
+                    },
+                    {
+                        title: 'Constly',
+                        field: 'constly'
+                    },
+                    {
+                        title: 'Price',
+                        field: 'price'
+                    },
+                    {
+                        title: 'Quantity',
+                        field: 'quantity'
+                    },
+                    {
+                        title: 'Status',
+                        field: 'status'
+                    },
 
-            {
-                title: 'Date of import',
-                field: 'date1',
-                type: 'date',
-                customSort: (a, b) => new Date(a.date) - new Date(b.date),
-                render: (data) => this.toDate(data.date)
-            },
-            {
-                title: 'Date of export',
-                field: 'date2',
-                type: 'date',
-                customSort: (a, b) => new Date(a.date) - new Date(b.date),
-                render: (data) => this.toDate(data.date)
-            },
-            {
-                title: 'Priority',
-                field: 'priority',
-                lookup: {
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5'
-            },
-            customSort: (a, b) => a.priority - b.priority
-          }
-        ],
-        data: [
-            {
-                name: 'Milk',
-                type: 'Dairy',
-                consily: 250,
-                price: 280,
-                quantity: 10,
-                status: 'Is useful',
-                date1: 'Sep 19 2010',
-                date2: 'Sep 30 2010',
-                priority: 1
-            }, 
-            {
-                name: 'Coca-cola',
-                type: 'Drink',
-                consily: 500,
-                price: 550,
-                quantity: 15,
-                status: 'Is useful',
-                date1: 'Sep 19 2010',
-                date2: 'Sep 30 2010',
-                priority: 3
+                    {
+                        title: 'Date of import',
+                        field: 'date1',
+                        type: 'date',
+                        customSort: (a, b) => new Date(a.date) - new Date(b.date),
+                        render: (data) => this.toDate(data.date)
+                    },
+                    {
+                        title: 'Date of export',
+                        field: 'date2',
+                        type: 'date',
+                        customSort: (a, b) => new Date(a.date) - new Date(b.date),
+                        render: (data) => this.toDate(data.date)
+                    },
+                    {
+                        title: 'Priority',
+                        field: 'priority',
+                        lookup: {
+                            1: '1',
+                            2: '2',
+                            3: '3',
+                            4: '4',
+                            5: '5'
+                        },
+                        customSort: (a, b) => a.priority - b.priority
+                    }
+                ],
+                data: []
             }
-        ]
-    };
+        } else if(this.props.data === 'shops') {
+            this.state = {
+                columns: [
+                    {
+                        title: 'Name',
+                        field: 'name'
+                    }, 
+                    {
+                        title: 'Status',
+                        field: 'status'
+                    },
+                ],
+                data: []
+            };
+        } else if(this.props.data === 'senders') { 
+            this.state = {
+                columns: [
+                    {
+                        title: 'Name',
+                        field: 'name'
+                    }, 
+                    {
+                        title: 'SurName',
+                        field: 'surname'
+                    },
+                ],
+                data: []
+            };
+        }
+    }
 
     toDate = string => new Date(string).toDateString()
 
@@ -91,6 +101,115 @@ class Table extends Component {
         3: '3',
         4: '4',
         5: '5'
+    }
+    componentDidMount() {
+        let url;
+        if(this.props.data === 'products') {
+            url = 'http://localhost:8081/products';
+        } else  if(this.props.data === 'shops') { 
+            url = 'http://localhost:8081/shops';
+        } else  if(this.props.data === 'senders') { 
+            url = 'http://localhost:8081/senders';
+        }
+        fetch(url, {
+            method: 'Get',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data =>
+            this.setState({data})
+        )
+        .catch(error => console.log('Fetch Error :-S', error));
+
+    }
+    validateRow = (data) => {
+        let fields;
+        if(this.props.data === 'products') {
+            fields = ['name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority'];
+        } else if(this.props.data === 'shops') { 
+            fields = ['name', 'status'];
+        } else if(this.props.data === 'senders') { 
+            fields = ['name', 'surname'];
+        }
+        console.log(data)
+        for(let i = 0; i < fields.length; ++i) {
+            if(!data[fields[i]]) {
+                alert("All fields must be filled");
+                return false;
+            }
+        }
+        return true;
+       
+    }
+    addRow =(newData) => {
+        fetch('http://localhost:8081/products', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:  JSON.stringify(newData)
+        }).then((res) =>  {
+            if (res.status !== 200) { 
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);  
+                return;  
+            }
+            console.log(newData)
+        }).catch(function(err) {  
+            console.log('Fetch Error :-S', err);  
+        });
+    }
+
+    deleteRow =(oldData) => {
+        console.log(oldData)
+        fetch('http://localhost:8081/products', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:  JSON.stringify( oldData)
+        }).then((res) =>  {
+            if (res.status !== 200) { console.log('0000000000000000: ' +  res.status); 
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);  
+                return;  
+            }
+        }).catch(function(err) {  
+            console.log('Fetch Error :-S', err);  
+        });
+    }
+
+    updateRow = (newData,oldData) => {
+        console.log(oldData.id)
+        let data = {};
+        data.id = oldData.id;
+        data.name = newData.name;
+        data.type = newData.type;
+        data.constly = newData.constly;
+        data.price = newData.price;
+        data.quantity = newData.quantity;
+        data.status = newData.status;
+        data.date1 = newData.date1;
+        data.date2 = newData.date2;
+        data.priority = newData.priority;
+        fetch('http://localhost:8081/products', {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body:  JSON.stringify(data)
+        }).then((res) =>  {
+            if (res.status !== 200) { console.log('0000000000000000: ' +  res.status); 
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);  
+                return;  
+            }
+        }).catch(function(err) {  
+            console.log('Fetch Error :-S', err);  
+        });
     }
 
     render() {
@@ -105,23 +224,30 @@ class Table extends Component {
                     onRowAdd: newData => new Promise(resolve => {
                         setTimeout(() => {
                             resolve();
-                            const data = [...this.state.data];
-                            data.push(newData);
-                            this.setState({
-                              ...this.state,
-                              data
-                            });
+                            if(this.validateRow(newData)) {
+                                const data = [...this.state.data];
+                                data.push(newData);
+                                this.setState({
+                                  ...this.state,
+                                  data
+                                });
+                                this.addRow(newData);
+                            }
                         }, 600);
+                     
                     }),
                     onRowUpdate: (newData, oldData) => new Promise(resolve => {
                         setTimeout(() => {
                             resolve();
-                            const data = [...this.state.data];
-                            data[data.indexOf(oldData)] = newData;
-                            this.setState({
-                                ...this.state,
-                                 data
-                            });
+                            if(this.validateRow(newData)) {
+                                const data = [...this.state.data];
+                                data[data.indexOf(oldData)] = newData;
+                                this.setState({
+                                    ...this.state,
+                                     data
+                                });
+                                this.updateRow(newData,oldData);
+                            }
                         }, 600);
                     }),
                     onRowDelete: oldData => new Promise(resolve => {
@@ -133,6 +259,7 @@ class Table extends Component {
                                  ...this.state,
                                  data
                             });
+                            this.deleteRow(oldData);
                         }, 600);
                     })
                 }}/>

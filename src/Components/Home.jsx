@@ -49,8 +49,18 @@ class Home extends Component {
             onKeyDown={this.toggleDrawer(false)}>
             <Divider/>
                 <List>
-                    <ListItem button key="Table" onClick={() => this.props.history.push('/table')}>
-                        <ListItemText primary="Table"/>
+                    <ListItem button key="Table" onClick={() => this.props.history.push('/productsTable')}>
+                        <ListItemText primary="Products Table"/>
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem button key="Table" onClick={() => this.props.history.push('/shopsTable')}>
+                        <ListItemText primary="Shops Table"/>
+                    </ListItem>
+                </List>
+                <List>
+                    <ListItem button key="Table" onClick={() => this.props.history.push('/sendersTable')}>
+                        <ListItemText primary="Sender Table"/>
                     </ListItem>
                 </List>
             <Divider/>
