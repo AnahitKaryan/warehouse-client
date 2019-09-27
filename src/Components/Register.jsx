@@ -125,7 +125,7 @@ class Register extends Component {
                 },
                 body:  JSON.stringify( newUser)
             }).then((res) =>  {
-                if (res.status !== 200) { console.log('0000000000000000: ' +  res.status); 
+                if (res.status !== 200) { 
                     if(res.status === 400) {
                         console.log('0000000000000000: ' +  res.status);  
                         alert('There is already a user with that password');

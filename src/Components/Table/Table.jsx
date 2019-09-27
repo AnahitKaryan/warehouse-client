@@ -6,6 +6,7 @@ class Table extends Component {
     constructor(props) {
         super(props);
         if(this.props.data === 'products') {
+            this.url = 'http://localhost:8081/products';
             this.state = {
                 columns: [
                     {
@@ -63,6 +64,7 @@ class Table extends Component {
                 data: []
             }
         } else if(this.props.data === 'shops') {
+            this.url = 'http://localhost:8081/shops';
             this.state = {
                 columns: [
                     {
@@ -77,6 +79,7 @@ class Table extends Component {
                 data: []
             };
         } else if(this.props.data === 'senders') { 
+            this.url = 'http://localhost:8081/senders';
             this.state = {
                 columns: [
                     {
@@ -93,7 +96,7 @@ class Table extends Component {
         }
     }
 
-    toDate = string => new Date(string).toDateString()
+    toDate = string => new Date(string).toDateString();
 
     priorities = {
         1: '1',
@@ -103,15 +106,7 @@ class Table extends Component {
         5: '5'
     }
     componentDidMount() {
-        let url;
-        if(this.props.data === 'products') {
-            url = 'http://localhost:8081/products';
-        } else  if(this.props.data === 'shops') { 
-            url = 'http://localhost:8081/shops';
-        } else  if(this.props.data === 'senders') { 
-            url = 'http://localhost:8081/senders';
-        }
-        fetch(url, {
+        fetch(this.url, {
             method: 'Get',
             headers: {
                 'Accept': 'application/json',
@@ -145,7 +140,7 @@ class Table extends Component {
        
     }
     addRow =(newData) => {
-        fetch('http://localhost:8081/products', {
+        fetch(this.url, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -165,7 +160,7 @@ class Table extends Component {
 
     deleteRow =(oldData) => {
         console.log(oldData)
-        fetch('http://localhost:8081/products', {
+        fetch(this.url, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -184,18 +179,9 @@ class Table extends Component {
 
     updateRow = (newData,oldData) => {
         console.log(oldData.id)
-        let data = {};
-        data.id = oldData.id;
-        data.name = newData.name;
-        data.type = newData.type;
-        data.constly = newData.constly;
-        data.price = newData.price;
-        data.quantity = newData.quantity;
-        data.status = newData.status;
-        data.date1 = newData.date1;
-        data.date2 = newData.date2;
-        data.priority = newData.priority;
-        fetch('http://localhost:8081/products', {
+        let data = newData;
+        data.id = oldData.id; 
+        fetch(this.url, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -203,7 +189,7 @@ class Table extends Component {
             },
             body:  JSON.stringify(data)
         }).then((res) =>  {
-            if (res.status !== 200) { console.log('0000000000000000: ' +  res.status); 
+            if (res.status !== 200) {
                 console.log('Looks like there was a problem. Status Code: ' +  res.status);  
                 return;  
             }
