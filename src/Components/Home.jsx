@@ -40,6 +40,17 @@ class Home extends Component {
             this.props.history .push('/');
         }
     }
+    productsTableClick = () => {
+        this.props.history.push('/productsTable');
+    }
+
+    shopsTableClick = () => {
+        this.props.history.push('/shopsTable');
+    }
+
+    sendersTableClick = () => {
+        this.props.history.push('/sendersTable');
+    }
 
     sideList = () => (
         <div
@@ -49,17 +60,17 @@ class Home extends Component {
             onKeyDown={this.toggleDrawer(false)}>
             <Divider/>
                 <List>
-                    <ListItem button key="Table" onClick={() => this.props.history.push('/productsTable')}>
+                    <ListItem button key="Table" onClick={this.productsTableClick}>
                         <ListItemText primary="Products Table"/>
                     </ListItem>
                 </List>
                 <List>
-                    <ListItem button key="Table" onClick={() => this.props.history.push('/shopsTable')}>
+                    <ListItem button key="Table" onClick={this.shopsTableClick}>
                         <ListItemText primary="Shops Table"/>
                     </ListItem>
                 </List>
                 <List>
-                    <ListItem button key="Table" onClick={() => this.props.history.push('/sendersTable')}>
+                    <ListItem button key="Table" onClick={this.sendersTableClick}>
                         <ListItemText primary="Sender Table"/>
                     </ListItem>
                 </List>
@@ -88,7 +99,6 @@ class Home extends Component {
                     </Box>
                     {this.component ? this.component : null}
                 </Grid>
-
                 <SwipeableDrawer
                   open={this.state.drawerOpen}
                   onClose={this.toggleDrawer(false)}
@@ -100,4 +110,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export { Home };

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import '../assets/login.css'
+import '../assets/login.css';
+import { FetchContext } from './FetchContext';
+
 import {
     Container, Col, Form,
     FormGroup, Label, Input,
@@ -7,7 +9,6 @@ import {
 } from 'reactstrap';
 
 class Login extends Component {
-
     state = {
         email: '',
         password: ''
@@ -23,17 +24,7 @@ class Login extends Component {
         e.preventDefault();
         const user = Object.assign(this.state); 
         try {
-            const result = await fetch('http://localhost:8081/signin', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user)
-            });
-
-            console.log("resulte Statys" + result.status);
-
+            const result = await this.context('http://localhost:8081/signin', 'POST', user );
             const content = await result.json();
             if(200 === result.status) {
                 localStorage.setItem('isAuthed', true);
@@ -48,6 +39,9 @@ class Login extends Component {
         }
     }
 
+    handleSubmit = (e) => {
+        this.props.history.push('/register');
+    }
     render() {
         return (
             <Container className="App">
@@ -79,7 +73,7 @@ class Login extends Component {
                     <Button type="submit" onClick={this.login}>
                         Login
                     </Button>
-                    <Button  onClick={() =>{this.props.history.push('/register');}}>
+                    <Button   onClick={this.handleSubmit}>
                         Register
                     </Button>
                 </Form>
@@ -88,4 +82,5 @@ class Login extends Component {
     }
 }
 
-export default Login;
+Login.contextType = FetchContext;
+export { Login };

@@ -5,6 +5,7 @@ import {
     Button,
 } from 'reactstrap';
 
+import { FetchContext } from './FetchContext';
 
 class Register extends Component {
     state = {
@@ -32,7 +33,6 @@ class Register extends Component {
         );
         return valid;
     }
-
 
     checkValidation = (event) => {
         const { name, value } = event.target;
@@ -75,38 +75,21 @@ class Register extends Component {
     }
 
     inputsChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        console.log('kanchvel e inoputChange' + name + value)
-        switch(name) {
-            case 'email':
-                this.setState({email: value});
-                break;
-            case 'password':
-                this.setState({password: value});
-                break;
-            case 'name':
-                this.setState({name: value});
-                break;
-            case 'surname':
-                this.setState({surname: value});
-                break;
-            case 'birthdate':
-                this.setState({birthdate: value});
-                break;
-            default:
-                break;
-        }
+        const targetName = e.target.name;
+        const targetValue = e.target.value;
+
+        this.setState({targetName: targetValue});
         this.checkValidation(e);
+
         if(!this.validateForm(this.state.errors)){
             this.setState({valid: false});
         } else {
             this.setState({valid: true});
         }
     }
+
     handleSubmit = (e) => {
         e.preventDefault();
-        // const newUser = Object.assign(this.state);
         if(this.validateForm(this.state.errors)) {
             console.info('Valid Form')
             const newUser = {
@@ -117,30 +100,18 @@ class Register extends Component {
                 "email": this.state.email,
                 "password": this.state.password       
             }
-            fetch('http://localhost:8081/signup', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body:  JSON.stringify( newUser)
-            }).then((res) =>  {
-                if (res.status !== 200) { 
-                    if(res.status === 400) {
-                        console.log('0000000000000000: ' +  res.status);  
-                        alert('There is already a user with that password');
-                        return;
-                    }
-                    console.log('Looks like there was a problem. Status Code: ' +  res.status);  
-                    return;  
-                }
-                this.props.history.push('/')
-            }).catch(function(err) {  
-                console.log('Fetch Error :-S', err);  
-            });
+            this.context('http://localhost:8081/signup', 'POST', newUser );
         } else {
             console.error('Invalid Form')
         }                  
+    }
+
+    cancellClick = () => {
+        this.props.history.push('/');
+    }
+
+    radioClick = (e) => {
+        this.setState({ gemus: e.target.value })
     }
 
     render() {
@@ -159,7 +130,7 @@ class Register extends Component {
                             required
                           />
                         {errors.email.length > 0 && 
-                        <span className='error'>{errors.email}</span>}
+                        <span className="error">{errors.email}</span>}
                     </FormGroup>
                     <FormGroup>
                         <Label for="examplePassword">Password</Label>
@@ -171,7 +142,7 @@ class Register extends Component {
                             required
                         />
                         {errors.password.length > 0 && 
-                        <span className='error'>{errors.password}</span>}
+                        <span className="error">{errors.password}</span>}
                     </FormGroup>
                     <FormGroup>
                         <Label>Name</Label>
@@ -183,7 +154,7 @@ class Register extends Component {
                             required
                          />
                         {errors.name.length > 0 && 
-                         <span className='error'>{errors.name}</span>}
+                         <span className="error">{errors.name}</span>}
                     </FormGroup>
                     <FormGroup>
                         <Label>Surname</Label>
@@ -196,7 +167,7 @@ class Register extends Component {
                             required
                         />
                         {errors.surname.length > 0 && 
-                        <span className='error'>{errors.surname}</span>}
+                        <span className="error">{errors.surname}</span>}
                     </FormGroup>
                     <Row form>
                         <legend>Birthday</legend>
@@ -217,25 +188,25 @@ class Register extends Component {
                         <legend>Gemus</legend>
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio" value='male'
-                                    checked={this.state.gemus === 'male'} onChange={(e) => this.setState({ gemus: e.target.value })} required />
+                                <Input type="radio" name="radio" value="male"
+                                    checked={this.state.gemus === 'male'} onChange={this.radioClick} required />
                                     Male
                             </Label>
                         </FormGroup>
                         <FormGroup check>
                             <Label check>
-                                <Input type="radio" name="radio" value='female'
-                                    checked={this.state.gemus === 'female'} onChange={(e) => this.setState({ gemus: e.target.value })} required/>
+                                <Input type="radio" name="radio" value="female"
+                                    checked={this.state.gemus === 'female'} onChange={this.radioClick} required/>
                                     Female
                             </Label>
                         </FormGroup>
                         {errors.gemus.length > 0 && 
-                        <span className='error'>{errors.gemus}</span>}
+                        <span className="error">{errors.gemus}</span>}
                     </FormGroup>
                     <Button type="submit" disabled={!this.state.valid} onClick={this.handleSubmit}>
                         Register
                     </Button>
-                    <Button  onClick={() => {this.props.history.push('/')}}>
+                    <Button  onClick={this.cancellClick}>
                         Cancell
                     </Button>
                 </Form>
@@ -243,5 +214,7 @@ class Register extends Component {
         );
     }
 }
-export default Register;
+
+Register.contextType = FetchContext;
+export { Register };
 
