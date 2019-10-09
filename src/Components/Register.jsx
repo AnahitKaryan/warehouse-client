@@ -16,12 +16,12 @@ class Register extends Component {
         email: '',
         password: '',
         errors: {
-            name: '',
-            surname: '',
-            birthdate: '',
+            name: 'The name must contain at least one character and begin with a capital letter!',
+            surname: 'The surname must contain at least one character and begin with a capital letter!',
+            birthdate: 'Birthdate is requared value!',
             gemus: '',
-            email: '',
-            password: ''
+            email: 'Email is not valid!',
+            password: 'Password must be 5 characters long!'
         },
         valid: false
     }
@@ -40,28 +40,28 @@ class Register extends Component {
         const validEmailRegex =  RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
         switch (name) {
-            case 'name': 
+            case 'name':
                 let valid = value.length < 1 || (value[0] >= 'A' && value[0] <= 'Z');
-                errors.name = 
+                errors.name =
                 !valid ? 'The name must contain at least one character and begin with a capital letter!': '';
                 break;
-            case 'surname': 
+            case 'surname':
                 let validSurname = value.length < 1 || (value[0] >= 'A' && value[0] <= 'Z');
-                errors.surname = 
+                errors.surname =
                 !validSurname ? 'The surname must contain at least one character and begin with a capital letter!': '';
                 break;
-            case 'birthdate': 
+            case 'birthdate':
                 errors.birthdate = value ? '' : 'Birthdate is requared value!';
                 break;
-            case 'gemus': 
+            case 'gemus':
                 errors.gemus = value ? '' : 'Gemus is requared value!';
                 break;
-            case 'email': 
+            case 'email':
                 errors.email =
                 validEmailRegex.test(value) ? '': 'Email is not valid!';
                 break;
-            case 'password': 
-                errors.password = 
+            case 'password':
+                errors.password =
                 value.length < 5 ? 'Password must be 5 characters long!' : '';
                 break;
             default:
@@ -98,12 +98,12 @@ class Register extends Component {
                 "birthdate": this.state.birthdate,
                 "gemus": this.state.gemus,
                 "email": this.state.email,
-                "password": this.state.password       
+                "password": this.state.password
             }
             this.context('http://localhost:8081/signup', 'POST', newUser );
         } else {
             console.error('Invalid Form')
-        }                  
+        }
     }
 
     cancellClick = () => {
@@ -129,7 +129,7 @@ class Register extends Component {
                             onChange={this.inputsChange}
                             required
                           />
-                        {errors.email.length > 0 && 
+                        {errors.email.length > 0 &&
                         <span className="error">{errors.email}</span>}
                     </FormGroup>
                     <FormGroup>
@@ -141,7 +141,7 @@ class Register extends Component {
                             onChange={this.inputsChange}
                             required
                         />
-                        {errors.password.length > 0 && 
+                        {errors.password.length > 0 &&
                         <span className="error">{errors.password}</span>}
                     </FormGroup>
                     <FormGroup>
@@ -153,7 +153,7 @@ class Register extends Component {
                             onChange={this.inputsChange}
                             required
                          />
-                        {errors.name.length > 0 && 
+                        {errors.name.length > 0 &&
                          <span className="error">{errors.name}</span>}
                     </FormGroup>
                     <FormGroup>
@@ -166,7 +166,7 @@ class Register extends Component {
                             onChange={this.inputsChange}
                             required
                         />
-                        {errors.surname.length > 0 && 
+                        {errors.surname.length > 0 &&
                         <span className="error">{errors.surname}</span>}
                     </FormGroup>
                     <Row form>
@@ -179,7 +179,7 @@ class Register extends Component {
                                    id="exampleDate"
                                    onChange={this.inputsChange}
                                 />
-                                {errors.birthdate.length > 0 && 
+                                {errors.birthdate.length > 0 &&
                                 <span className='error'>{errors.birthdate}</span>}
                             </FormGroup>
                         </Col>
@@ -200,7 +200,7 @@ class Register extends Component {
                                     Female
                             </Label>
                         </FormGroup>
-                        {errors.gemus.length > 0 && 
+                        {errors.gemus.length > 0 &&
                         <span className="error">{errors.gemus}</span>}
                     </FormGroup>
                     <Button type="submit" disabled={!this.state.valid} onClick={this.handleSubmit}>
@@ -217,4 +217,3 @@ class Register extends Component {
 
 Register.contextType = FetchContext;
 export { Register };
-

@@ -21,7 +21,7 @@ class App extends React.Component {
 
         if(arguments[2]) {
             fetchObject.body = JSON.stringify(arguments[2])
-        } 
+        }
 
         if( methodData === 'GET') {
             fetch(urlData, fetchObject)
@@ -36,15 +36,19 @@ class App extends React.Component {
         }
 
         fetch(urlData, fetchObject).then((res) =>  {
-            if (res.status !== 200) { 
-                console.log('Looks like there was a problem. Status Code: ' +  res.status);  
-                return;  
-            }
             if(urlData === 'http://localhost:8081/signup') {
-                this.props.history.push('/');
+                if (res.status === 400) {
+                    alert('There is already a user at this email address,enter a different address!');
+                } else {
+                    this.props.history.push('/');
+                }
             }
-        }).catch(function(err) {  
-            console.log('Fetch Error :-S', err);  
+            if (res.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);
+                return;
+            }
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
         });
     }
 

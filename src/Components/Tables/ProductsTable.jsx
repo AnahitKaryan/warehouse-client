@@ -9,7 +9,7 @@ class ProductsTable extends Component {
             {
                 title: 'Name',
                 field: 'name'
-            }, 
+            },
             {
                 title: 'Type',
                 field: 'type'
@@ -60,7 +60,7 @@ class ProductsTable extends Component {
         ],
         data: []
     }
-    
+
     toDate = string => new Date(string).toDateString();
 
     priorities = {
@@ -84,7 +84,7 @@ class ProductsTable extends Component {
                 return false;
             }
         }
-        return true; 
+        return true;
     }
 
     addRow =(newData) => {
@@ -97,7 +97,7 @@ class ProductsTable extends Component {
 
     updateRow = (newData,oldData) => {
         let data = newData;
-        data.id = oldData.id; 
+        data.id = oldData.id;
         this.context('http://localhost:8081/products', 'PUT', data );
     }
 
@@ -124,7 +124,7 @@ class ProductsTable extends Component {
                                 this.addRow(newData);
                             }
                         }, 600);
-                     
+
                     }),
                     onRowUpdate: (newData, oldData) => new Promise(resolve => {
                         setTimeout(() => {
