@@ -22,20 +22,19 @@ class Login extends Component {
 
     login = async(e) => {
         e.preventDefault();
-        const user = Object.assign(this.state); 
+        const user = Object.assign(this.state);
         try {
             const result = await this.context('http://localhost:8081/signin', 'POST', user );
-            const content = await result.json();
             if(200 === result.status) {
                 localStorage.setItem('isAuthed', true);
                 this.props.history.push('/home');
-
-            } else {
-                alert(content.message);
+            } else if(400 === result.status){
+                  alert('Password  is false');
+            } else if(401 === result.status){
+                  alert('Password or Email is false');
             }
-              
         } catch (error) {
-            alert(`Password or Email is false`);
+            alert('Server not connected');
         }
     }
 
@@ -68,7 +67,7 @@ class Login extends Component {
                             onChange={this.inputsChange}
                           />
                         </FormGroup>
-                     
+
                     </Col>
                     <Button type="submit" onClick={this.login}>
                         Login

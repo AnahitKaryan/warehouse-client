@@ -18,11 +18,9 @@ class App extends React.Component {
                 'Content-Type': 'application/json',
             }
         };
-
         if(arguments[2]) {
             fetchObject.body = JSON.stringify(arguments[2])
         }
-
         if( methodData === 'GET') {
             fetch(urlData, fetchObject)
             .then(response => response.json())
@@ -30,11 +28,9 @@ class App extends React.Component {
             .catch(error => console.log('Fetch Error :-S', error));
             return;
         }
-
         if(urlData === 'http://localhost:8081/signin') {
             return fetch(urlData, fetchObject);
         }
-
         fetch(urlData, fetchObject).then((res) =>  {
             if(urlData === 'http://localhost:8081/signup') {
                 if (res.status === 400) {
