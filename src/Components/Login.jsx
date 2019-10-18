@@ -25,13 +25,11 @@ class Login extends Component {
         const user = Object.assign(this.state);
         try {
             const result = await this.context('http://localhost:8081/signin', 'POST', user );
-            if(200 === result.status) {
+            if(200 === result.status) {console.log('respons Cooki------' + result.cookie)
                 localStorage.setItem('isAuthed', true);
                 this.props.history.push('/home');
-            } else if(400 === result.status){
-                  alert('Password  is false');
-            } else if(401 === result.status){
-                  alert('Password or Email is false');
+            } else {
+                alert('Password or Email is false');
             }
         } catch (error) {
             alert('Server not connected');
