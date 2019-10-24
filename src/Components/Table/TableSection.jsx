@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {List } from './List';
-import { FetchContext } from './../FetchContext';
+import { fetchCall } from '../../DAO/DAO.js';
 
-import { Button } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
 
 class TableSection extends Component {
     constructor(props) {
@@ -21,37 +21,42 @@ class TableSection extends Component {
             priority: ''
             
         };
+        this.fetchCall = fetchCall.bind(this);
     }
 
     componentDidMount() {
-      
-            fetch('http://localhost:8081/products',{ method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }})
-            .then(response => response.json())
-            .then(data => this.setState({data}))
-            .catch(error => console.log('Fetch Error :-S', error));
+        this.fetchCall('products', 'GET')
+        .then(response => response.json())
+        .then(data => this.setState({data}))
+        .catch(error => console.log('Fetch Error :-S', error));
     }
-
 
     inputsChange = (e) => {
         const targetName = e.target.name;
         const targetValue = e.target.value;
-        this.setState({targetName: targetValue});
+        this.setState({[targetName]: targetValue});
     }
 
-
-    deleteProduct = (i) => {
+    deleteProduct = (id) => {
         this.setState({
-            data: this.state.data.filter((item, index) => index !== i)
+            data: this.state.data.filter((item) => item.id !== id)
+        });
+        const obj = {};
+        obj.id = id;
+    
+        this.fetchCall('products', 'DELETE', obj )
+        .then((res) =>  {
+            if (res.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);
+                return;
+            }
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
         });
     }
 
-    addProduct = (e) => {
-        e.preventDefault();
-        let check = this.state.name.length === 0 ||
+    checkInputs = () => {
+        const check = this.state.name.length === 0 ||
                     this.state.type.length === 0 ||
                     this.state.constly.length === 0 ||
                     this.state.price.length === 0 ||
@@ -60,11 +65,9 @@ class TableSection extends Component {
                     this.state.date1.length === 0 ||
                     this.state.date2.length === 0 ||
                     this.state.priority.length === 0 ;
-
-        if(check) {
-            alert('Fill all the fields correctly');
-            return
-        }
+        return check;
+    }
+    createNewProduct = () => {
         const newProduct = {};
         newProduct.name = this.state.name;
         newProduct.type = this.state.type;
@@ -76,7 +79,27 @@ class TableSection extends Component {
         newProduct.date2 = this.state.date2;
         newProduct.priority = this.state.priority;
 
-        this.context('http://localhost:8081/products', 'POST', newProduct );
+        return newProduct;
+    }
+    addProduct = (e) => {
+        e.preventDefault();
+        if(this.checkInputs()) {
+            alert('Fill all the fields correctly');
+            return
+        }
+        const newProduct = this.createNewProduct();
+        newProduct.id = this.state.data.length > 0 ? this.state.data[this.state.data.length - 1].id + 1 : 0;
+        
+        this.fetchCall('products', 'POST', newProduct)
+        .then((res) =>  {
+            if (res.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);
+                return;
+            }
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
+
         this.setState(state => ({
             data: state.data.concat(newProduct),
             name: '',
@@ -92,9 +115,56 @@ class TableSection extends Component {
         }));
 
     }
+    updateProduct = (e, item) => {
+        e.preventDefault();
+        this.setState({
+            name: item.name ,
+            type: item.type,
+            constly: item.constly, 
+            price: item.price, 
+            quantity: item.quantity,
+            status: item.status,
+            date1: item.date1,
+            date2: item.date2,
+            priority: item.priority
+            
+        });
+       
+        if(this.checkInputs()) {
+            alert('Fill all the fields correctly');
+            return
+        }
+
+        const newProduct = this.createNewProduct();
+        newProduct.id = item.id;
+        
+        this.fetchCall('products', 'PUT', newProduct )
+        .then((res) =>  {
+            if (res.status !== 200) {
+                console.log('Looks like there was a problem. Status Code: ' +  res.status);
+                return;
+            }
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
+        
+        this.setState(state => ({
+            data: state.data.map(function(el) { return el === item ? newProduct : el; }),
+            name: '',
+            type: '',
+            constly: '', 
+            price: '', 
+            quantity: '',
+            status: '',
+            date1: '',
+            date2: '',
+            priority: ''
+            
+        }));
+
+    }
 
     search = (e) => {
-        console.log('changeee', e.target);
         const searchString = e.target.value;
         this.setState({
             filteredList: this.state.data.filter((item) => item.name.toLowerCase().match(searchString)),
@@ -103,38 +173,32 @@ class TableSection extends Component {
     }
 
     sort = (field) => {
-        switch (field) {
-            case 'priority':
-                this.setState({
-                    data: this.state.data.sort((function(a, b) { return Number(a.priority) > Number(b.priority);}))
-                });
-                break;
-            case 'date1':
-                this.setState({
-                    data: this.state.data.sort((function(a, b) {
-                        const firstDate = a.date1.split("-");
-                        const lastDate = a.date1.split("-");
-                        return firstDate[2] > lastDate[2] || firstDate[1] > lastDate[1] || firstDate[0] >= lastDate[0];
-                    }))
-                });
-                break;
-            case 'date1':
-                this.setState({
-                    data: this.state.data.sort((function(a, b) {
-                        const firstDate = a.date2.split("-");
-                        const lastDate = a.date2.split("-");
-                        return firstDate[2] > lastDate[2] || firstDate[1] > lastDate[1] || firstDate[0] >= lastDate[0];
-                    }))
-                });
-                break;
-  
-            default: this.setState({
-                data: this.state.data.sort((function(a, b) { return a.field > b.field;}))
-            });
-        
-        }
-    }
+        const numberic = field === 'constly' || field === 'price' || field === 'quantity' || field === 'priority';
+        const date = field === 'date1' || field === 'date2';
+        const string = field === 'name' || field === 'type' || field === 'status';
 
+        if(numberic) {
+            this.setState({
+                data: this.state.data.sort(function(a, b) { return Number(a[field]) > Number(b[field]);
+                })
+            });
+        } else if(date) {
+            this.setState({
+                data: this.state.data.sort(function(a, b) {
+                    const firstDate = a[field].split("-");
+                    const lastDate = b[field].split("-");
+                    return firstDate[2] > lastDate[2] || firstDate[1] > lastDate[1] || firstDate[0] >= lastDate[0];
+                })
+            });
+        } else if(string) {
+            this.setState({
+                data: this.state.data.sort(function(a, b) {
+                        return a[field] > b[field];
+                    
+                })
+            });
+        }         
+    }
 
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
@@ -144,37 +208,76 @@ class TableSection extends Component {
             <input  placeholder="Enter the search text" value={this.state.searchText} onChange={this.search}/>
             <List products={list}
                   deleteProduct={this.deleteProduct}
-                  onChange={this.inputsChange}
-                  addProduct={this.addProduct}
                   sort={this.sort}
+                  updateProduct={this.updateProduct}
+                  inputsChange={this.inputsChange}
             />
             <div>
-            <h4> Enter product params </h4>
-             <form>
-                <input onChange={this.inputsChange} placeholder="Enter new product name" name='name' required/>
-                <input onChange={this.inputsChange} placeholder="Enter new product type" name='type' required/>
-                <input onChange={this.inputsChange} placeholder="Enter new product constly" name='constly' required/>
-                <input onChange={this.inputsChange} placeholder="Enter new product price" name='price' required/>
-                <input onChange={this.inputsChange} placeholder="Enter new product quantity" name='quantity' required/>
-                <input onChange={this.inputsChange} placeholder="Enter new product status" required/>
-               
-                <input
-                 type="date"
-                 name="date1"
-                 id="exampleDate"
-                 placeholder="date1 placeholder"
-                 onChange={this.inputsChange}
-                />
-                <input
-                 type="date"
-                 name="date2"
-                 id="exampleDate"
-                 placeholder="date2 placeholder"
-                 onChange={this.inputsChange}
-                />
-                <input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name='priority' required/>
-                <Button color="info" onClick={this.addProduct}> Add</Button>{' '}
-             </form>
+            <h4> Enter added  product params </h4>
+             <Form>
+                <Col sm={3}>
+                    <FormGroup> 
+                        <Input onChange={this.inputsChange} placeholder="Enter new product name" name="name" required/> 
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup>
+                        <Input onChange={this.inputsChange} placeholder="Enter new product type" name="type" required/>
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup> 
+                        <Input onChange={this.inputsChange} placeholder="Enter new product constly" name="constly"  pattern="\d*" required/> 
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup> 
+                        <Input onChange={this.inputsChange} placeholder="Enter new product price" name="price"  pattern="\d*" required/> 
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup>
+                        <Input onChange={this.inputsChange} placeholder="Enter new product quantity" name="quantity" pattern="\d*" required/> 
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup> 
+                        <Input onChange={this.inputsChange} name="status" placeholder="Enter new product status" required/>
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup>
+                        <Input
+                         type="date"
+                         name="date1"
+                         id="exampleDate"
+                         placeholder="date1 placeholder"
+                         onChange={this.inputsChange}
+                        />
+                </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup>
+                        <Input
+                         type="date"
+                         name="date2"
+                         id="exampleDate"
+                         placeholder="date2 placeholder"
+                         onChange={this.inputsChange}
+                        />
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup>
+                        <Input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name="priority" pattern="\d*" required/> 
+                    </FormGroup>
+                </Col>
+                <Col sm={3}>
+                    <FormGroup>
+                        <Button color="info" onClick={this.addProduct}> Add</Button>{' '}
+                    </FormGroup>
+                </Col>
+             </Form>
             </div>
 
           </div>

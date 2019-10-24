@@ -5,7 +5,7 @@ import {
     Button,
 } from 'reactstrap';
 
-import { FetchContext } from './FetchContext';
+import { fetchCall } from '../DAO/DAO.js';
 
 class Register extends Component {
     state = {
@@ -41,12 +41,12 @@ class Register extends Component {
 
         switch (name) {
             case 'name':
-                let valid = value.length < 1 || (value[0] >= 'A' && value[0] <= 'Z');
+                let valid = value === [] || (value[0] >= 'A' && value[0] <= 'Z');
                 errors.name =
                 !valid ? 'The name must contain at least one character and begin with a capital letter!': '';
                 break;
             case 'surname':
-                let validSurname = value.length < 1 || (value[0] >= 'A' && value[0] <= 'Z');
+                let validSurname = value === [] || (value[0] >= 'A' && value[0] <= 'Z');
                 errors.surname =
                 !validSurname ? 'The surname must contain at least one character and begin with a capital letter!': '';
                 break;
@@ -74,7 +74,7 @@ class Register extends Component {
         this.validateForm(this.state.errors);
     }
 
-    inputsChange = (e) => {
+    inputsChange = (e) => { 
         const targetName = e.target.name;
         const targetValue = e.target.value;
 
@@ -100,7 +100,24 @@ class Register extends Component {
                 "email": this.state.email,
                 "password": this.state.password
             }
-            this.context('http://localhost:8081/signup', 'POST', newUser );
+            fetchCall('signup', 'POST', newUser)
+            .then((res) =>  {
+                if (res.status !== 200) {
+                    if (res.status === 400) {
+                        alert('There is already a user at this email address,enter a different address!');
+                    } else if (res.status === 404) {
+                        alert('Conflict error!'); 
+                    } else if (res.status === 500) {
+                        alert('INTERNAL_SERVER_ERROR!'); 
+                    } 
+                    console.log('Looks like there was a problem. Status Code: ' +  res.status);
+                    return;
+                } else  if (res.status === 200)  {
+                    this.props.history.push('/');
+                }
+            }).catch(function(err) {
+                console.log('Fetch Error :-S', err);
+            });
         } else {
             console.error('Invalid Form')
         }
@@ -117,103 +134,115 @@ class Register extends Component {
     render() {
         const {errors} = this.state;
         return (
-            <Container className="App">
-                <h2>Register</h2>
-                <Form className="form" noValidate>
-                    <FormGroup>
-                        <Label>Email</Label>
-                         <Input
-                            placeholder="Enter email"
-                            autoCapitalize={false}
-                            name="email"
-                            onChange={this.inputsChange}
-                            required
-                          />
-                        {errors.email.length > 0 &&
-                        <span className="error">{errors.email}</span>}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label for="examplePassword">Password</Label>
-                         <Input
-                            type="password"
-                            placeholder="Enter password"
-                            name="password"
-                            onChange={this.inputsChange}
-                            required
-                        />
-                        {errors.password.length > 0 &&
-                        <span className="error">{errors.password}</span>}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label>Name</Label>
-                        <Input
-                            placeholder="Enter name"
-                            autoCapitalize={false}
-                            name="name"
-                            onChange={this.inputsChange}
-                            required
-                         />
-                        {errors.name.length > 0 &&
-                         <span className="error">{errors.name}</span>}
-                    </FormGroup>
-                    <FormGroup>
-                        <Label>Surname</Label>
-                        <Input
-                            type="text"
-                            placeholder="Enter surname"
-                            autoCapitalize={false}
-                            name="surname"
-                            onChange={this.inputsChange}
-                            required
-                        />
-                        {errors.surname.length > 0 &&
-                        <span className="error">{errors.surname}</span>}
-                    </FormGroup>
-                    <Row form>
-                        <legend>Birthday</legend>
-                        <Col>
-                            <FormGroup>
-                                <Input
-                                   type="date"
-                                   name="birthdate"
-                                   id="exampleDate"
-                                   onChange={this.inputsChange}
-                                />
-                                {errors.birthdate.length > 0 &&
-                                <span className='error'>{errors.birthdate}</span>}
-                            </FormGroup>
-                        </Col>
-                    </Row>
-                    <FormGroup tag="fieldset">
-                        <legend>Gemus</legend>
-                        <FormGroup check>
-                            <Label check>
-                                <Input type="radio" name="radio" value="male"
-                                    checked={this.state.gemus === 'male'} onChange={this.radioClick} required />
-                                    Male
-                            </Label>
+            <Form className="user-data-form" noValidate>
+                <h2 className="user-data-form__title">Register</h2>
+                <FormGroup>
+                    <Label className="user-data-form__label" >Email</Label>
+                     <Input
+                        className="user-data-form__input"
+                        placeholder="Enter email"
+                        autoCapitalize={false}
+                        name="email"
+                        onChange={this.inputsChange}
+                        required
+                      />
+                    {errors.email.length > 0 &&
+                    <span className="user-data-form__span-error">{errors.email}</span>}
+                </FormGroup>
+                <FormGroup>
+                    <Label className="user-data-form__label" for="examplePassword">Password</Label>
+                     <Input
+                        className="user-data-form__input"
+                        type="password"
+                        placeholder="Enter password"
+                        name="password"
+                        onChange={this.inputsChange}
+                        required
+                    />
+                    {errors.password.length > 0 &&
+                    <span className="user-data-form__span-error">{errors.password}</span>}
+                </FormGroup>
+                <FormGroup>
+                    <Label className="user-data-form__label" >Name</Label>
+                    <Input
+                        className="user-data-form__input"
+                        placeholder="Enter name"
+                        autoCapitalize={false}
+                        name="name"
+                        onChange={this.inputsChange}
+                        required
+                     />
+                    {errors.name.length > 0 &&
+                     <span className="user-data-form__span-error">{errors.name}</span>}
+                </FormGroup>
+                <FormGroup>
+                    <Label className="user-data-form__label" >Surname</Label>
+                    <Input
+                        className="user-data-form__input"
+                        type="text"
+                        placeholder="Enter surname"
+                        autoCapitalize={false}
+                        name="surname"
+                        onChange={this.inputsChange}
+                        required
+                    />
+                    {errors.surname.length > 0 &&
+                    <span className="user-data-form__span-error">{errors.surname}</span>}
+                </FormGroup>
+                <Row form>
+                    <legend className="user-data-form__legend">Birthday</legend>
+                    <Col>
+                        <FormGroup>
+                            <Input
+                                className="user-data-form__input"
+                                type="date"
+                                name="birthdate"
+                                id="exampleDate"
+                                onChange={this.inputsChange}
+                            />
+                            {errors.birthdate.length > 0 &&
+                            <span className="user-data-form__span-error">{errors.birthdate}</span>}
                         </FormGroup>
-                        <FormGroup check>
-                            <Label check>
-                                <Input type="radio" name="radio" value="female"
-                                    checked={this.state.gemus === 'female'} onChange={this.radioClick} required/>
-                                    Female
-                            </Label>
-                        </FormGroup>
-                        {errors.gemus.length > 0 &&
-                        <span className="error">{errors.gemus}</span>}
+                    </Col>
+                </Row>
+                <FormGroup tag="fieldset">
+                    <legend className="user-data-form__legend">Gemus</legend>
+                    <FormGroup check>
+                        <Label className="user-data-form__label" check>
+                            <Input
+                                className="user-data-form__input" 
+                                type="radio" 
+                                name="radio"
+                                value="male"
+                                checked={this.state.gemus === 'male'} 
+                                onChange={this.radioClick} required />
+                                Male
+                        </Label>
                     </FormGroup>
-                    <Button type="submit" disabled={!this.state.valid} onClick={this.handleSubmit}>
-                        Register
-                    </Button>
-                    <Button  onClick={this.cancellClick}>
-                        Cancell
-                    </Button>
-                </Form>
-            </Container>
+                    <FormGroup check>
+                        <Label className="user-data-form__label" check>
+                            <Input
+                                className="user-data-form__input" 
+                                type="radio" 
+                                name="radio" 
+                                value="female"
+                                checked={this.state.gemus === 'female'} 
+                                onChange={this.radioClick} required/>
+                                Female
+                        </Label>
+                    </FormGroup>
+                    {errors.gemus.length > 0 &&
+                    <span className="user-data-form__span-error">{errors.gemus}</span>}
+                </FormGroup>
+                <Button className="user-data-form__button" type="submit" disabled={!this.state.valid} onClick={this.handleSubmit}>
+                    Register
+                </Button>
+                <Button  className="user-data-form__button" onClick={this.cancellClick}>
+                    Cancell
+                </Button>
+            </Form>
         );
     }
 }
 
-Register.contextType = FetchContext;
 export { Register };

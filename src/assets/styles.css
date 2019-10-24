@@ -1,32 +1,32 @@
-.App {
-	width: 300px;
+.user-data-form {
+	width: 400px;
 	margin: 0 auto;
 	font-family: Tahoma, Geneva, sans-serif;
 	background-color: #FFF;
 }
-.App h2 {
+.user-data-form__title{
 	text-align: center;
 	color: #4d4d4d;
 	font-size: 24px;
 	padding: 20px 0 20px 0;
 }
-.App span {
+.user-data-form__span-error {
 	text-align: start;
 	color: red;
 	font-size: 10px;
 }
-.App legend,label {
+.user-data-form__legend, .user-data-form__label {
 	text-align: start;
 	font-size: 25px;
 }
-.App input {
+.user-data-form__input {
 	width: 100%;
 	padding: 15px;
 	border: 1px solid #dddddd;
 	margin-bottom: 15px;
 	box-sizing:border-box;
 }
-.App button {
+.user-data-form__button {
 	width: 100%;
 	padding: 15px;
 	margin: 5px;
@@ -37,7 +37,10 @@
 	font-weight: bold;
 	color: #ffffff;
 }
-.App button:disabled, button[disabled] {
+.user-data-form button:disabled, button[disabled] {
 	background-color: grey;
 }
 
+.modify {
+	margin-top: 10px;
+}

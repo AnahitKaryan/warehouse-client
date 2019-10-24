@@ -1,22 +1,26 @@
 import React, {Component} from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
-import { FetchContext } from './../FetchContext';
+import { fetchCall } from '../../DAO/DAO.js';
 
 class ShopsTable extends Component {   
-    state = {
-        columns: [
-            {
-                title: 'Name',
-                field: 'name'
-            }, 
-            {
-                title: 'Status',
-                field: 'status'
-            },
-        ],
-        data: []
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                {
+                    title: 'Name',
+                    field: 'name'
+                }, 
+                {
+                    title: 'Status',
+                    field: 'status'
+                },
+            ],
+            data: []
+        };
+        this.fetchCall = fetchCall.bind(this);
+    }
 
     toDate = string => new Date(string).toDateString();
 
@@ -29,7 +33,10 @@ class ShopsTable extends Component {
     }
     
     componentDidMount() {
-        this.context('http://localhost:8081/shops', 'GET');
+        this.fetchCall('shops', 'GET')
+        .then(response => response.json())
+        .then(data => this.setState({data}))
+        .catch(error => console.log('Fetch Error :-S', error));
     }
 
     validateRow = (data) => {
@@ -45,17 +52,17 @@ class ShopsTable extends Component {
     }
 
     addRow =(newData) => {
-        this.context('http://localhost:8081/shops', 'POST', newData );
+        fetchCall('shops', 'POST', newData);
     }
 
     deleteRow =(oldData) => {
-        this.context('http://localhost:8081/shops', 'DELETE', oldData );
+        fetchCall('shops', 'DELETE', oldData );
     }
 
     updateRow = (newData,oldData) => {
         let data = newData;
         data.id = oldData.tableData.id; 
-        this.context('http://localhost:8081/shops', 'PUT', data );
+        fetchCall('shops', 'PUT', data );
     }
 
     render() {
@@ -115,5 +122,4 @@ class ShopsTable extends Component {
     }
 }
 
-ShopsTable.contextType = FetchContext;
 export { ShopsTable };

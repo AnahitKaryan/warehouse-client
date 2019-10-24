@@ -1,64 +1,68 @@
 import React, {Component} from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
-import { FetchContext } from './../FetchContext';
+import { fetchCall } from '../../DAO/DAO.js';
 
 class ProductsTable extends Component {
-    state = {
-        columns: [
-            {
-                title: 'Name',
-                field: 'name'
-            },
-            {
-                title: 'Type',
-                field: 'type'
-            },
-            {
-                title: 'Constly',
-                field: 'constly'
-            },
-            {
-                title: 'Price',
-                field: 'price'
-            },
-            {
-                title: 'Quantity',
-                field: 'quantity'
-            },
-            {
-                title: 'Status',
-                field: 'status'
-            },
-
-            {
-                title: 'Date of import',
-                field: 'date1',
-                type: 'date',
-                customSort: (a, b) => new Date(a.date) - new Date(b.date),
-                render: (data) => this.toDate(data.date)
-            },
-            {
-                title: 'Date of export',
-                field: 'date2',
-                type: 'date',
-                customSort: (a, b) => new Date(a.date) - new Date(b.date),
-                render: (data) => this.toDate(data.date)
-            },
-            {
-                title: 'Priority',
-                field: 'priority',
-                lookup: {
-                    1: '1',
-                    2: '2',
-                    3: '3',
-                    4: '4',
-                    5: '5'
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                {
+                    title: 'Name',
+                    field: 'name'
                 },
-                customSort: (a, b) => a.priority - b.priority
-            }
-        ],
-        data: []
+                {
+                    title: 'Type',
+                    field: 'type'
+                },
+                {
+                    title: 'Constly',
+                    field: 'constly'
+                },
+                {
+                    title: 'Price',
+                    field: 'price'
+                },
+                {
+                    title: 'Quantity',
+                    field: 'quantity'
+                },
+                {
+                    title: 'Status',
+                    field: 'status'
+                },
+
+                {
+                    title: 'Date of import',
+                    field: 'date1',
+                    type: 'date',
+                    customSort: (a, b) => new Date(a.date) - new Date(b.date),
+                    render: (data) => this.toDate(data.date)
+                },
+                {
+                    title: 'Date of export',
+                    field: 'date2',
+                    type: 'date',
+                    customSort: (a, b) => new Date(a.date) - new Date(b.date),
+                    render: (data) => this.toDate(data.date)
+                },
+                {
+                    title: 'Priority',
+                    field: 'priority',
+                    lookup: {
+                        1: '1',
+                        2: '2',
+                        3: '3',
+                        4: '4',
+                        5: '5'
+                    },
+                    customSort: (a, b) => a.priority - b.priority
+                }
+            ],
+            data: []
+        }
+        this.fetchCall = fetchCall.bind(this);
     }
 
     toDate = string => new Date(string).toDateString();
@@ -72,7 +76,10 @@ class ProductsTable extends Component {
     }
 
     componentDidMount() {
-        this.context('http://localhost:8081/products', 'GET');
+        this.fetchCall('products', 'GET')
+        .then(response => response.json())
+        .then(data => this.setState({data}))
+        .catch(error => console.log('Fetch Error :-S', error));
     }
 
     validateRow = (data) => {
@@ -88,18 +95,19 @@ class ProductsTable extends Component {
     }
 
     addRow =(newData) => {
-        this.context('http://localhost:8081/products', 'POST', newData );
+        this.fetchCall('products', 'POST', newData);
     }
 
     deleteRow =(oldData) => {
-        this.context('http://localhost:8081/products', 'DELETE', oldData );
+        this.fetchCall('products', 'DELETE', oldData );
     }
 
     updateRow = (newData,oldData) => {
         let data = newData;
-        data.id = oldData.id;
-        this.context('http://localhost:8081/products', 'PUT', data );
+        data.id = oldData.tableData.id; 
+        this.fetchCall('products', 'PUT', data );
     }
+
 
     render() {
         return (
@@ -158,5 +166,4 @@ class ProductsTable extends Component {
     }
 }
 
-ProductsTable.contextType = FetchContext;
 export { ProductsTable };

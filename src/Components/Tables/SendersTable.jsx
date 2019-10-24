@@ -1,22 +1,26 @@
 import React, {Component} from 'react';
 import MaterialTable from 'material-table';
 import './Table.css';
-import { FetchContext } from './../FetchContext';
+import { fetchCall } from '../../DAO/DAO.js';
 
 class SendersTable extends Component {
-    state = {
-        columns: [
-            {
-                title: 'Name',
-                field: 'name'
-            }, 
-            {
-                title: 'SurName',
-                field: 'surname'
-            },
-        ],
-        data: []
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            columns: [
+                {
+                    title: 'Name',
+                    field: 'name'
+                }, 
+                {
+                    title: 'SurName',
+                    field: 'surname'
+                },
+            ],
+            data: []
+        };
+        this.fetchCall = fetchCall.bind(this);
+    }
 
     toDate = string => new Date(string).toDateString();
 
@@ -27,9 +31,28 @@ class SendersTable extends Component {
         4: '4',
         5: '5'
     }
-
+    
     componentDidMount() {
-        this.context('http://localhost:8081/senders', 'GET');
+        this.fetchCall('senders', 'GET')
+        .then(response => response.json())
+        .then(data => this.setState({data}))
+        .catch(error => console.log('Fetch Error :-S', error));
+        
+    }
+
+
+    addRow =(newData) => {
+        this.fetchCall('senders', 'POST', newData);
+    }
+
+    deleteRow =(oldData) => {
+        this.fetchCall('senders', 'DELETE', oldData );
+    }
+
+    updateRow = (newData,oldData) => {
+        let data = newData;
+        data.id = oldData.tableData.id; 
+        this.fetchCall('senders', 'PUT', data );
     }
 
     validateRow = (data) => {
@@ -42,20 +65,6 @@ class SendersTable extends Component {
         }
         return true;
        
-    }
-
-    addRow =(newData) => {
-        this.context('http://localhost:8081/senders', 'POST', newData );
-    }
-
-    deleteRow =(oldData) => {
-        this.context('http://localhost:8081/senders', 'DELETE', oldData );
-    }
-
-    updateRow = (newData,oldData) => {
-        let data = newData;
-        data.id = oldData.tableData.id; 
-        this.context('http://localhost:8081/senders', 'PUT', data );
     }
 
     render() {
@@ -115,5 +124,4 @@ class SendersTable extends Component {
     }
 }
 
-SendersTable.contextType = FetchContext;
 export { SendersTable };

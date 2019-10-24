@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import '../assets/login.css';
-import { FetchContext } from './FetchContext';
+import '../assets/styles.css';
+import { fetchCall } from '../DAO/DAO.js';
 
 import {
     Container, Col, Form,
@@ -23,17 +23,17 @@ class Login extends Component {
     login = async(e) => {
         e.preventDefault();
         const user = Object.assign(this.state);
-        try {
-            const result = await this.context('http://localhost:8081/signin', 'POST', user );
-            if(200 === result.status) {console.log('respons Cooki------' + result.cookie)
+        await fetchCall('signin', 'POST', user)
+        .then((res) =>  {
+            if(200 === res.status) {console.log('respons Cooki------' + res.cookie)
                 localStorage.setItem('isAuthed', true);
                 this.props.history.push('/home');
             } else {
                 alert('Password or Email is false');
             }
-        } catch (error) {
-            alert('Server not connected');
-        }
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });
     }
 
     handleSubmit = (e) => {
@@ -41,43 +41,43 @@ class Login extends Component {
     }
     render() {
         return (
-            <Container className="App">
-                <h2>Sign In</h2>
-                <Form className="form" noValidate>
-                    <Col>
-                        <FormGroup>
-                            <Label>Email</Label>
-                            <Input
-                            type="text"
-                            placeholder="Enter your email"
-                            name="email"
-                            onChange={this.inputsChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col>
-                        <FormGroup>
-                            <Label for="examplePassword">Password</Label>
-                            <Input
-                            type="password"
-                            name="password"
-                            placeholder="Enter your password"
-                            onChange={this.inputsChange}
-                          />
-                        </FormGroup>
+            <Form className="user-data-form" noValidate>
+                <h2 className="user-data-form__title">Sign In</h2>
+                <Col>
+                    <FormGroup>
+                        <Label className="user-data-form__label">Email</Label>
+                        <Input
+                        className="user-data-form__input"
+                        type="text"
+                        placeholder="Enter your email"
+                        name="email"
+                        onChange={this.inputsChange}
+                        />
+                    </FormGroup>
+                </Col>
+                <Col>
+                    <FormGroup>
+                        <Label  className="user-data-form__label" for="examplePassword">Password</Label>
+                        <Input
+                        className="user-data-form__input"
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        onChange={this.inputsChange}
+                      />
+                    </FormGroup>
 
-                    </Col>
-                    <Button type="submit" onClick={this.login}>
-                        Login
-                    </Button>
-                    <Button   onClick={this.handleSubmit}>
-                        Register
-                    </Button>
-                </Form>
-            </Container>
+                </Col>
+                <Button className="user-data-form__button" type="submit" onClick={this.login}>
+                    Login
+                </Button>
+                <Button  className="user-data-form__button" onClick={this.handleSubmit}>
+                    Register
+                </Button>
+            </Form>
         );
     }
 }
 
-Login.contextType = FetchContext;
+//Login.contextType = FetchContext;
 export { Login };
