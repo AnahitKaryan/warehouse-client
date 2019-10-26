@@ -25,7 +25,9 @@ class Login extends Component {
         const user = Object.assign(this.state);
         await fetchCall('signin', 'POST', user)
         .then((res) =>  {
-            if(200 === res.status) {console.log('respons Cooki------' + res.cookie)
+            if(200 === res.status) {
+                console.log('respons hader ------' + JSON.stringify(res.headers))
+                document.cookie = res.headers.Cookie; //-----?
                 localStorage.setItem('isAuthed', true);
                 this.props.history.push('/home');
             } else {
@@ -79,5 +81,4 @@ class Login extends Component {
     }
 }
 
-//Login.contextType = FetchContext;
 export { Login };

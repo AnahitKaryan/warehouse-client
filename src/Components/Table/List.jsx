@@ -53,4 +53,4 @@ class  List extends Component {
     }
 }
 
-export { List} ;
+export { List};
