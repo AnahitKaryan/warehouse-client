@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Button } from 'reactstrap';
 import ReactDOM from 'react-dom';
 import Modal from 'react-responsive-modal';
-import '../../assets/styles.css';
+import '../../../assets/styles.css';
 
 class ModifyModal extends Component {
     constructor(props) {

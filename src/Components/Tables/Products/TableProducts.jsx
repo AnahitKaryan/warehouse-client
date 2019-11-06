@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {List } from './List';
-import { fetchCall } from '../../DAO/DAO.js';
-
 import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
 
-class TableSection extends Component {
+import {List } from './List';
+import { fetchCall } from '../../../DAO/DAO.js';
+
+
+class TableProducts extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +20,6 @@ class TableSection extends Component {
             date1: '',
             date2: '',
             priority: ''
-            
         };
         this.fetchCall = fetchCall.bind(this);
     }
@@ -57,14 +57,14 @@ class TableSection extends Component {
 
     checkInputs = () => {
         const check = this.state.name.length === 0 ||
-                    this.state.type.length === 0 ||
-                    this.state.constly.length === 0 ||
-                    this.state.price.length === 0 ||
-                    this.state.quantity.length === 0 ||
-                    this.state.status.length === 0 ||
-                    this.state.date1.length === 0 ||
-                    this.state.date2.length === 0 ||
-                    this.state.priority.length === 0 ;
+                      this.state.type.length === 0 ||
+                      this.state.constly.length === 0 ||
+                      this.state.price.length === 0 ||
+                      this.state.quantity.length === 0 ||
+                      this.state.status.length === 0 ||
+                      this.state.date1.length === 0 ||
+                      this.state.date2.length === 0 ||
+                      this.state.priority.length === 0 ;
         return check;
     }
     createNewProduct = () => {
@@ -115,6 +115,7 @@ class TableSection extends Component {
         }));
 
     }
+
     updateProduct = (e, item) => {
         e.preventDefault();
         this.setState({
@@ -159,9 +160,7 @@ class TableSection extends Component {
             date1: '',
             date2: '',
             priority: ''
-            
         }));
-
     }
 
     search = (e) => {
@@ -193,8 +192,7 @@ class TableSection extends Component {
         } else if(string) {
             this.setState({
                 data: this.state.data.sort(function(a, b) {
-                        return a[field] > b[field];
-                    
+                    return a[field] > b[field];
                 })
             });
         }         
@@ -204,85 +202,85 @@ class TableSection extends Component {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
 
         return (
-          <div>
-            <input  placeholder="Enter the search text" value={this.state.searchText} onChange={this.search}/>
-            <List products={list}
-                  deleteProduct={this.deleteProduct}
-                  sort={this.sort}
-                  updateProduct={this.updateProduct}
-                  inputsChange={this.inputsChange}
-            />
-            <div>
-            <h4> Enter added  product params </h4>
-             <Form>
-                <Col sm={3}>
-                    <FormGroup> 
-                        <Input onChange={this.inputsChange} placeholder="Enter new product name" name="name" required/> 
+            <Col sm={{ size: 10, offset: 1 }}>
+                <h3> Products Table</h3>
+                <input  placeholder="Enter the search text" value={this.state.searchText} onChange={this.search}/>
+                <List products={list}
+                      deleteProduct={this.deleteProduct}
+                      sort={this.sort}
+                      updateProduct={this.updateProduct}
+                      inputsChange={this.inputsChange}
+                />
+                <h4> Enter added  product params </h4>
+                <Form>
+                    <Col sm={3}>
+                        <FormGroup> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product name" name="name" required/> 
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup>
+                            <Input onChange={this.inputsChange} placeholder="Enter new product type" name="type" required/>
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product constly" name="constly"  pattern="\d*" required/> 
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product price" name="price"  pattern="\d*" required/> 
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup>
+                            <Input onChange={this.inputsChange} placeholder="Enter new product quantity" name="quantity" pattern="\d*" required/> 
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup> 
+                            <Input onChange={this.inputsChange} name="status" placeholder="Enter new product status" required/>
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup>
+                            <Input
+                             type="date"
+                             name="date1"
+                             id="exampleDate"
+                             placeholder="date1 placeholder"
+                             onChange={this.inputsChange}
+                            />
                     </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup>
-                        <Input onChange={this.inputsChange} placeholder="Enter new product type" name="type" required/>
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup> 
-                        <Input onChange={this.inputsChange} placeholder="Enter new product constly" name="constly"  pattern="\d*" required/> 
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup> 
-                        <Input onChange={this.inputsChange} placeholder="Enter new product price" name="price"  pattern="\d*" required/> 
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup>
-                        <Input onChange={this.inputsChange} placeholder="Enter new product quantity" name="quantity" pattern="\d*" required/> 
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup> 
-                        <Input onChange={this.inputsChange} name="status" placeholder="Enter new product status" required/>
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup>
-                        <Input
-                         type="date"
-                         name="date1"
-                         id="exampleDate"
-                         placeholder="date1 placeholder"
-                         onChange={this.inputsChange}
-                        />
-                </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup>
-                        <Input
-                         type="date"
-                         name="date2"
-                         id="exampleDate"
-                         placeholder="date2 placeholder"
-                         onChange={this.inputsChange}
-                        />
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup>
-                        <Input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name="priority" pattern="\d*" required/> 
-                    </FormGroup>
-                </Col>
-                <Col sm={3}>
-                    <FormGroup>
-                        <Button color="info" onClick={this.addProduct}> Add</Button>{' '}
-                    </FormGroup>
-                </Col>
-             </Form>
-            </div>
-
-          </div>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup>
+                            <Input
+                             type="date"
+                             name="date2"
+                             id="exampleDate"
+                             placeholder="date2 placeholder"
+                             onChange={this.inputsChange}
+                            />
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup>
+                            <Input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name="priority" pattern="\d*" required/> 
+                        </FormGroup>
+                    </Col>
+                    <Col sm={3}>
+                        <FormGroup>
+                            <Button color="info" onClick={this.addProduct}>
+                                Add
+                            </Button>
+                        </FormGroup>
+                    </Col>
+                </Form>   
+            </Col>
         );
     }
 }
 
-export { TableSection };
+export { TableProducts };

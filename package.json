@@ -3,11 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.4.2",
-    "@material-ui/icons": "^4.4.1",
+    "@trendmicro/react-sidenav": "^0.4.5",
     "bootstrap": "^4.3.1",
-    "material-table": "^1.50.0",
-    "react": "^16.10.2",
+    "react": "^16.11.0",
     "react-cookie": "^4.0.1",
     "react-dom": "^16.10.2",
     "react-responsive-modal": "^4.0.1",

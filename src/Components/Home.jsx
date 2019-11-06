@@ -1,111 +1,73 @@
 import React, {Component} from 'react';
-import {
-    SwipeableDrawer,
-    List,
-    Divider,
-    ListItem,
-    ListItemText,
-    IconButton,
-    Box,
-    Grid
-} from '@material-ui/core';
+import SideNav, { Nav, NavItem } from '@trendmicro/react-sidenav';
+import {BrowserRouter, Route, NavLink} from 'react-router-dom';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import { Button } from 'reactstrap';
 
-import MenuIcon from '@material-ui/icons/Menu';
+import { fetchCall } from '../DAO/DAO.js';
+import { TableProducts } from './Tables/Products/TableProducts';
+import { TableSenders } from './Tables/Senders/TableSenders';
+import { TableShops } from './Tables/Shops/TableShops';
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-            this.state = {
-            drawerOpen: false
-        }
-        this.component = this.props.component;
+    logOut = async(e) => {
+        e.preventDefault();
+        await fetchCall('signout', 'DELETE')
+        .then((res) =>  {
+            if(200 === res.status) {
+                localStorage.setItem('isAuthed', false);
+                this.props.history.push('/');
+            } else {
+                alert('Connection problems');
+            }
+        }).catch(function(err) {
+            console.log('Fetch Error :-S', err);
+        });     
     }
-
-    toggleDrawer =  (drawerOpen) => event => {
-        if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-          return;
-        }
-
-        this.setState({drawerOpen});
-    }
-    
-    logOut = () => {
-        localStorage.setItem('isAuthed', false);
-        this.props.history.push('/');
-    }
-
-    componentWillMount() {
-        const isAuthed = localStorage.getItem('isAuthed');
-        if (!isAuthed) {
-            this.props.history .push('/');
-        }
-    }
-    productsTableClick = () => {
-        this.props.history.push('/productsTable');
-    }
-
-    shopsTableClick = () => {
-        this.props.history.push('/shopsTable');
-    }
-
-    sendersTableClick = () => {
-        this.props.history.push('/sendersTable');
-    }
-
-    sideList = () => (
-        <div
-            className="list"
-            role="presentation"
-            onClick={this.toggleDrawer(false)}
-            onKeyDown={this.toggleDrawer(false)}>
-            <Divider/>
-                <List>
-                    <ListItem button key="Table" onClick={this.productsTableClick}>
-                        <ListItemText primary="Products Table"/>
-                    </ListItem>
-                </List>
-                <List>
-                    <ListItem button key="Table" onClick={this.shopsTableClick}>
-                        <ListItemText primary="Shops Table"/>
-                    </ListItem>
-                </List>
-                <List>
-                    <ListItem button key="Table" onClick={this.sendersTableClick}>
-                        <ListItemText primary="Sender Table"/>
-                    </ListItem>
-                </List>
-            <Divider/>
-            <List>
-                <ListItem button key="Log Out" onClick={this.logOut}>
-                    <ListItemText primary="Log Out"/>
-                </ListItem>
-
-            </List>
-        </div>
-    );
 
     render() {
         return (
-            <div>
-                <Grid container direction="row">
-                    <Box ml={2} mt={1}>
-                        <IconButton
-                          color="default"
-                          aria-label="Open drawer"
-                          onClick={this.toggleDrawer(true)}
-                          edge="start">
-                        <MenuIcon/>
-                        </IconButton>
-                    </Box>
-                    {this.component ? this.component : null}
-                </Grid>
-                <SwipeableDrawer
-                  open={this.state.drawerOpen}
-                  onClose={this.toggleDrawer(false)}
-                  onOpen={this.toggleDrawer(true)}>
-                  {this.sideList('left')}
-                </SwipeableDrawer>
-            </div>
+            <BrowserRouter>
+                <Route render={({location, history}) => (
+                    <React.Fragment>
+                        <SideNav onSelect={(selected) => {
+                                    const to = '/' + selected;
+                                    if (location.pathname !== to) {
+                                        history.push(to);
+                                    }
+                                }}>
+                            <SideNav.Nav >
+                                <NavItem eventKey="productsList">
+                                    <NavLink to='/home/productsList'>
+                                        Products List 
+                                     </NavLink>
+                                </NavItem>
+                                <NavItem eventKey="shopsList">
+                                    <NavLink to='/home/shopsList'>
+                                        Shops List
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem eventKey="sendersList">
+                                    <NavLink to='/home/sendersList'>
+                                         Senders List
+                                    </NavLink>
+                                </NavItem>
+                                <NavItem eventKey="sendersList">
+                                    <Button color="primary" onClick={this.logOut}>Log Out</Button>
+                                </NavItem>
+                            </SideNav.Nav>
+                        </SideNav>
+                        <div>
+                            <Route path="/home/productsList" 
+                                   component={TableProducts}/>
+                            <Route path="/home/shopsList" 
+                                   component={TableShops}/>
+                            <Route path="/home/sendersList" 
+                                   component={TableSenders}/>
+                        </div>
+                    </React.Fragment>
+                )}/>
+            </BrowserRouter>
         );
     }
 }

@@ -1,8 +1,7 @@
 import React ,{Component} from 'react';
-import { ModifyModal } from './Modal.js';
+import { Table, Button } from 'reactstrap';
 
-import { Table } from 'reactstrap';
-import { Button } from 'reactstrap';
+import { ModifyModal } from './Modal';
 
 class  List extends Component {
 
@@ -12,15 +11,15 @@ class  List extends Component {
                 <thead>
                     <tr>
                         <th> N </th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('name')}}> Name v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('type')}}> Type v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('constly')}}> Constly v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('price')}}> Price v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('quantity')}}> Quantity v </Button></th>
-                        <th> <Button outline color="info"onClick={() =>{this.props.sort('status')}}> Status v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('date1')}}> Date1 v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('date2')}}> Date2 v </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('priority')}}> Priority v </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('name')}}> Name^ </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('type')}}> Type^ </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('constly')}}> Constly^ </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('price')}}> Price^ </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('quantity')}}> Quantity^ </Button></th>
+                        <th> <Button outline color="info"onClick={() =>{this.props.sort('status')}}> Status^ </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('date1')}}> Date1^ </Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('date2')}}> Date2^</Button></th>
+                        <th> <Button outline color="info" onClick={() =>{this.props.sort('priority')}}> Priority^ </Button></th>
                         <th> Modify </th>
                         <th> Delete </th>
                      </tr>

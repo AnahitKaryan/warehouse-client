@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-    Container, Col, Row, Form,
+    Col, Row, Form,
     FormGroup, Label, Input,
-    Button,
+    Button
 } from 'reactstrap';
 
 import { fetchCall } from '../DAO/DAO.js';
