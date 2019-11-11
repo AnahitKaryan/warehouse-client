@@ -4,18 +4,24 @@ import { Table, Button  } from 'reactstrap';
 import { ModifyModal } from './Modal';
 
 class  List extends Component {
-
     render () {
+        const theadData = ['N', 'name', 'surname', 'Modify', 'Delete'];
         return (
             <Table dark>
                 <thead>
                     <tr>
-                        <th> N </th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('name')}}> Name ^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('surname')}}> Surname ^</Button></th>
-                        <th> Modify </th>
-                        <th> Delete </th>
-                     </tr>
+                    {theadData.map((item) => (
+                        item === 'N' || item === 'Modify' || item === 'Delete' ? (
+                            <th> {item} </th>
+                        ) : (
+                            <th> 
+                                <Button outline color="info" onClick={this.props.sort.bind(this, item)}> 
+                                    {item} ^
+                                </Button>
+                            </th>
+                        )
+                    ))} 
+                    </tr>
                 </thead>
                 <tbody>
                     {this.props.senders.map((item, index) => (
@@ -29,7 +35,11 @@ class  List extends Component {
                         onChange={this.props.inputsChange}
                         updateSender={this.props.updateSender}
                         />
-                        <td> <Button color="danger"  onClick={() => this.props.deleteSender(item.id)} > Delete </Button>{' '} </td>
+                        <td>
+                            <Button color="danger"  onClick={this.props.deleteSender.bind(this, item.id)} >
+                                Delete 
+                            </Button>
+                        </td>
                     </tr>
                     ))}
                 </tbody>

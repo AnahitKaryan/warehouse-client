@@ -26,7 +26,6 @@ class Login extends Component {
         await fetchCall('signin', 'POST', user)
         .then((res) =>  {
             if(200 === res.status) {
-                document.cookie = this.state.email + this.state.password; 
                 localStorage.setItem('isAuthed', true);
                 this.props.history.push('/home');
             } else {

@@ -153,12 +153,12 @@ class TableShops extends Component {
                 <Form>
                     <Col sm={3}>
                         <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender name" name="name" required/> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new sender name" name="name" value={this.state.name} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender status" name="status" required/>
+                            <Input onChange={this.inputsChange} placeholder="Enter new sender status" name="status" value={this.state.status} required/>
                         </FormGroup>
                     </Col>
                     <Col sm={3}>

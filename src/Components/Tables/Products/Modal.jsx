@@ -9,6 +9,15 @@ class ModifyModal extends Component {
         super(props);
         this.state = {
             open: false,
+            name: this.props.item.name,
+            type: this.props.item.type,
+            constly: this.props.item.constly, 
+            price: this.props.item.price, 
+            quantity: this.props.item.quantity,
+            status: this.props.item.status,
+            date1: this.props.item.date1,
+            date2: this.props.item.date2,
+            priority: this.props.item.priority
         };
     }
 
@@ -29,27 +38,27 @@ class ModifyModal extends Component {
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <h3 color="info"> Modify product params </h3>
                     <form>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.name} name="name" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.type} name="type" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.constly} name="constly"  pattern="\d*" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.price}  name="price" pattern="\d*" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.quantity} name="quantity" pattern="\d*" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.status} name="status" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.name} name="name" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.type} name="type" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.constly} name="constly"  pattern="\d*" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.price}  name="price" pattern="\d*" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.quantity} name="quantity" pattern="\d*" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.status} name="status" required/>
                         <input
                          type="date"
                          name="date1"
                          id="exampleDate"
-                         defaultValue={this.props.item.date1}
+                         defaultValue={this.state.date1}
                          onChange={this.props.onChange}
                        />
                        <input
                          type="date"
                          name="date2"
                          id="exampleDate"
-                         defaultValue={this.props.item.date2}
+                         defaultValue={this.state.date2}
                          onChange={this.props.onChange}
                        />
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.priority} name="priority" type="number" pattern="\d*" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.priority} name="priority" type="number" pattern="\d*" required/>
                     </form>
                     <Button color="info" onClick={this.onCloseModal}> Confirmed </Button>
                 </Modal>

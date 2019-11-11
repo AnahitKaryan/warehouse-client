@@ -4,15 +4,13 @@ let fetchCall = function (urlData, methodData, bodyData) {
     let url = 'http://' + config.DN_HOST + ':' + config.DN_PORT + '/' + urlData;
     const fetchObject = {
         method: methodData,
-        credentials: 'same-origin',
         mode: 'cors',
-        redirect: 'follow',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Cookie': document.cookie
+            'Content-Type': 'application/json'
         },
-        cookie: document.cookie
+        credentials: 'same-origin',
+        redirect: 'follow',
     };
 
     if(arguments[2]) {

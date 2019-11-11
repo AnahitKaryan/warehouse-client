@@ -6,23 +6,23 @@ import { ModifyModal } from './Modal';
 class  List extends Component {
 
     render () {
+        const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'Modify', 'Delete'];
         return (
             <Table dark>
                 <thead>
                     <tr>
-                        <th> N </th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('name')}}> Name^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('type')}}> Type^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('constly')}}> Constly^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('price')}}> Price^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('quantity')}}> Quantity^ </Button></th>
-                        <th> <Button outline color="info"onClick={() =>{this.props.sort('status')}}> Status^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('date1')}}> Date1^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('date2')}}> Date2^</Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('priority')}}> Priority^ </Button></th>
-                        <th> Modify </th>
-                        <th> Delete </th>
-                     </tr>
+                    {theadData.map((item) => (
+                        item === 'N' || item === 'Modify' || item === 'Delete' ? (
+                            <th> {item} </th>
+                        ) : (
+                            <th> 
+                                <Button outline color="info" onClick={this.props.sort.bind(this, item)}> 
+                                    {item} ^
+                                </Button>
+                            </th>
+                        )
+                    ))} 
+                    </tr>
                 </thead>
                 <tbody>
                     {this.props.products.map((item, index) => (
@@ -43,7 +43,11 @@ class  List extends Component {
                         onChange={this.props.inputsChange}
                         updateProduct={this.props.updateProduct}
                         />
-                        <td> <Button color="danger"  onClick={() => this.props.deleteProduct(item.id)} > Delete </Button>{' '} </td>
+                        <td> 
+                            <Button color="danger"  onClick={this.props.deleteProduct.bind(this, item.id)} >
+                                Delete 
+                            </Button>
+                        </td>
                     </tr>
                     ))}
                 </tbody>

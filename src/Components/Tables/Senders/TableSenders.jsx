@@ -131,7 +131,7 @@ class TableSenders extends Component {
     sort = (field) => {
         this.setState({
             data: this.state.data.sort(function(a, b) {
-                    return a[field] > b[field];
+                return a[field] > b[field];
             })
         });        
     }
@@ -153,12 +153,12 @@ class TableSenders extends Component {
                 <Form>
                     <Col sm={3}>
                         <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender name" name="name" required/> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new sender name" name="name" value={this.state.name} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender surname" name="surname" required/>
+                            <Input onChange={this.inputsChange} placeholder="Enter new sender surname" name="surname" value={this.state.surname} required/>
                         </FormGroup>
                     </Col>
                     <Col sm={3}>

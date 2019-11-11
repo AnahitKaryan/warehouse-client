@@ -6,16 +6,23 @@ import { ModifyModal } from './Modal';
 class  List extends Component {
 
     render () {
+        const theadData = ['N', 'name', 'status', 'Modify', 'Delete'];
         return (
             <Table dark>
                 <thead>
                     <tr>
-                        <th> N </th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('name')}}> Name ^ </Button></th>
-                        <th> <Button outline color="info" onClick={() =>{this.props.sort('status')}}> Status ^ </Button></th>
-                        <th> Modify </th>
-                        <th> Delete </th>
-                     </tr>
+                    {theadData.map((item) => (
+                        item === 'N' || item === 'Modify' || item === 'Delete' ? (
+                            <th> {item} </th>
+                        ) : (
+                            <th> 
+                                <Button outline color="info" onClick={this.props.sort.bind(this, item)}> 
+                                    {item} ^
+                                </Button>
+                            </th>
+                        )
+                    ))} 
+                    </tr>
                 </thead>
                 <tbody>
                     {this.props.shops.map((item, index) => (
@@ -29,7 +36,12 @@ class  List extends Component {
                         onChange={this.props.inputsChange}
                         updateShop={this.props.updateShop}
                         />
-                        <td> <Button color="danger"  onClick={() => this.props.deleteShop(item.id)} > Delete </Button>{' '} </td>
+                        <td> 
+                            <Button color="danger"  onClick=
+                            {this.props.deleteShop.bind(this, item.id)} >
+                                Delete 
+                            </Button>
+                        </td>
                     </tr>
                     ))}
                 </tbody>

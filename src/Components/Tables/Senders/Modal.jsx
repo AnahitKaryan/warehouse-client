@@ -9,6 +9,8 @@ class ModifyModal extends Component {
         super(props);
         this.state = {
             open: false,
+            name: this.props.item.name,
+            surname: this.props.item.surname
         };
     }
 
@@ -29,8 +31,8 @@ class ModifyModal extends Component {
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <h3 color="info"> Modify sender params </h3>
                     <form>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.name} name="name" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.props.item.surname} name="surname" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.name} name="name" required/>
+                        <input onChange={this.props.onChange} defaultValue={this.state.surname} name="surname" required/>
                     </form>
                     <Button color="info" onClick={this.onCloseModal}> Confirmed </Button>
                 </Modal>

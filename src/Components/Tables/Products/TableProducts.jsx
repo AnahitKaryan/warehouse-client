@@ -4,7 +4,6 @@ import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
 import {List } from './List';
 import { fetchCall } from '../../../DAO/DAO.js';
 
-
 class TableProducts extends Component {
     constructor(props) {
         super(props);
@@ -215,32 +214,32 @@ class TableProducts extends Component {
                 <Form>
                     <Col sm={3}>
                         <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new product name" name="name" required/> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product name" name="name" value={this.state.name} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new product type" name="type" required/>
+                            <Input onChange={this.inputsChange} placeholder="Enter new product type" name="type" value={this.state.type} required/>
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new product constly" name="constly"  pattern="\d*" required/> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product constly" name="constly"  pattern="\d*" value={this.state.constly} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new product price" name="price"  pattern="\d*" required/> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product price" name="price"  pattern="\d*" value={this.state.price} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new product quantity" name="quantity" pattern="\d*" required/> 
+                            <Input onChange={this.inputsChange} placeholder="Enter new product quantity" name="quantity" pattern="\d*" value={this.state.quantity} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
                         <FormGroup> 
-                            <Input onChange={this.inputsChange} name="status" placeholder="Enter new product status" required/>
+                            <Input onChange={this.inputsChange} name="status" placeholder="Enter new product status" value={this.state.status} required/>
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
@@ -248,6 +247,7 @@ class TableProducts extends Component {
                             <Input
                              type="date"
                              name="date1"
+                             value={this.state.date1}
                              id="exampleDate"
                              placeholder="date1 placeholder"
                              onChange={this.inputsChange}
@@ -259,6 +259,7 @@ class TableProducts extends Component {
                             <Input
                              type="date"
                              name="date2"
+                             value={this.state.date2}
                              id="exampleDate"
                              placeholder="date2 placeholder"
                              onChange={this.inputsChange}
@@ -267,7 +268,7 @@ class TableProducts extends Component {
                     </Col>
                     <Col sm={3}>
                         <FormGroup>
-                            <Input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name="priority" pattern="\d*" required/> 
+                            <Input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name="priority" pattern="\d*" value={this.state.priority} required/> 
                         </FormGroup>
                     </Col>
                     <Col sm={3}>
