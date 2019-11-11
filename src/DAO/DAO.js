@@ -6,11 +6,10 @@ let fetchCall = function (urlData, methodData, bodyData) {
         method: methodData,
         mode: 'cors',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Accept': '*',
+            'Content-Type': 'application/json',
         },
-        credentials: 'same-origin',
-        redirect: 'follow',
+         credentials: 'include',
     };
 
     if(arguments[2]) {
