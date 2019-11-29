@@ -1,7 +1,7 @@
 const config = require('./../configs/config');
 
 let fetchCall = function (urlData, methodData, bodyData) {
-    let url = 'http://' + config.DN_HOST + ':' + config.DN_PORT + '/' + urlData;
+    const url = config.options.protocol + '://' + config.options.host + ':' + config.options.port + '/' + urlData;
     const fetchObject = {
         method: methodData,
         mode: 'cors',
@@ -9,7 +9,7 @@ let fetchCall = function (urlData, methodData, bodyData) {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        credentials: 'same-origin',
+        credentials: 'include',
         redirect: 'follow',
     };
 

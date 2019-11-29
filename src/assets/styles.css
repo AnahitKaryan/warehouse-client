@@ -4,7 +4,7 @@
 	font-family: Tahoma, Geneva, sans-serif;
 	background-color: #FFF;
 }
-.user-data-form__title{
+.user-data-form__title {
 	text-align: center;
 	color: #4d4d4d;
 	font-size: 24px;
@@ -40,7 +40,9 @@
 .user-data-form button:disabled, button[disabled] {
 	background-color: grey;
 }
-
 .modify {
 	margin-top: 10px;
+}
+.res {
+	color: red;
 }

@@ -11,7 +11,8 @@ import {
 class Login extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        respons: ''
     }
 
     inputsChange = (e) => {
@@ -29,7 +30,7 @@ class Login extends Component {
                 localStorage.setItem('isAuthed', true);
                 this.props.history.push('/home');
             } else {
-                alert('Password or Email is false');
+                this.setState({respons:'Password or Email is false!'});
             }
         }).catch(function(err) {
             console.log('Fetch Error :-S', err);
@@ -42,6 +43,7 @@ class Login extends Component {
     render() {
         return (
             <Form className="user-data-form" noValidate>
+                <h2 className="res">{this.state.respons}</h2>
                 <h2 className="user-data-form__title">Sign In</h2>
                 <Col>
                     <FormGroup>

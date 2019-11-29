@@ -23,7 +23,8 @@ class Register extends Component {
             email: 'Email is not valid!',
             password: 'Password must be 5 characters long!'
         },
-        valid: false
+        valid: false,
+        respons: '',
     }
 
     validateForm = (errors) => {
@@ -104,11 +105,11 @@ class Register extends Component {
             .then((res) =>  {
                 if (res.status !== 200) {
                     if (res.status === 400) {
-                        alert('There is already a user at this email address,enter a different address!');
+                        this.setState({respons: 'There is already a user at this email address,enter a different address!'});
                     } else if (res.status === 404) {
-                        alert('Conflict error!'); 
+                        this.setState({respons: 'Conflict error!'});
                     } else if (res.status === 500) {
-                        alert('INTERNAL_SERVER_ERROR!'); 
+                        this.setState({respons: 'INTERNAL_SERVER_ERROR!'});
                     } 
                     console.log('Looks like there was a problem. Status Code: ' +  res.status);
                     return;
@@ -135,6 +136,7 @@ class Register extends Component {
         const {errors} = this.state;
         return (
             <Form className="user-data-form" noValidate>
+                <h2 className="res">{this.state.respons}</h2>
                 <h2 className="user-data-form__title">Register</h2>
                 <FormGroup>
                     <Label className="user-data-form__label" >Email</Label>

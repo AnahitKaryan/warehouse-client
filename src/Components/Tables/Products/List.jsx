@@ -40,8 +40,8 @@ class  List extends Component {
 
                         <ModifyModal 
                         className="modal" item={item}
-                        onChange={this.props.inputsChange}
                         updateProduct={this.props.updateProduct}
+                        onChange={this.props.inputsChange}
                         />
                         <td> 
                             <Button color="danger"  onClick={this.props.deleteProduct.bind(this, item.id)} >

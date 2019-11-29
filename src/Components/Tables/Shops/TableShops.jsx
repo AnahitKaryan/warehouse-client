@@ -11,7 +11,8 @@ class TableShops extends Component {
             data: [],
             filteredList: [],
             name: '',
-            status: ''
+            status: '',
+            respons: ''
         };
         this.fetchCall = fetchCall.bind(this);
     }
@@ -64,7 +65,7 @@ class TableShops extends Component {
     addShop = (e) => {
         e.preventDefault();
         if(this.checkInputs()) {
-            alert('Fill all the fields correctly');
+            this.setState({respons:'Fill all the fields correctly!'});
             return
         }
         const newShop = this.createNewShop();
@@ -96,7 +97,7 @@ class TableShops extends Component {
         });
        
         if(this.checkInputs()) {
-            alert('Fill all the fields correctly');
+            this.setState({respons:'Fill all the fields correctly!'});
             return
         }
 
@@ -139,6 +140,8 @@ class TableShops extends Component {
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
 
+        const data = ['name', 'status'];
+
         return (
             <Col sm={{ size: 10, offset: 1 }}>
                 <h3> Shops Table</h3>
@@ -149,22 +152,19 @@ class TableShops extends Component {
                     updateShop={this.updateShop}
                     inputsChange={this.inputsChange}
                 />
+                <h2 className="res">{this.state.respons}</h2>
                 <h4> Enter added shop params </h4>
                 <Form>
-                    <Col sm={3}>
-                        <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender name" name="name" value={this.state.name} required/> 
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender status" name="status" value={this.state.status} required/>
-                        </FormGroup>
-                    </Col>
+                    {data.map(item => ( 
+                        <Col sm={3}>
+                            <FormGroup> 
+                                <Input onChange={this.inputsChange} placeholder={item} name={item} value={this.state.item} required/> 
+                            </FormGroup>
+                        </Col>
+                    ))}
                     <Col sm={3}>
                         <FormGroup>
-                            <Button color="info" onClick={this.addShop}> 
-                                Add
+                            <Button color="info" onClick={this.addShop}>Add
                             </Button>
                         </FormGroup>
                     </Col>

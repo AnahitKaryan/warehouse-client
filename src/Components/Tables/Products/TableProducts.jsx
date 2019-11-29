@@ -10,6 +10,7 @@ class TableProducts extends Component {
         this.state = {
             data: [],
             filteredList: [],
+            respons: '',
             name: '',
             type: '',
             constly: '', 
@@ -83,12 +84,12 @@ class TableProducts extends Component {
     addProduct = (e) => {
         e.preventDefault();
         if(this.checkInputs()) {
-            alert('Fill all the fields correctly');
+            this.setState({respons:'Fill all the fields correctly!'});
             return
         }
         const newProduct = this.createNewProduct();
         newProduct.id = this.state.data.length > 0 ? this.state.data[this.state.data.length - 1].id + 1 : 0;
-        
+
         this.fetchCall('products', 'POST', newProduct)
         .then((res) =>  {
             if (res.status !== 200) {
@@ -131,7 +132,7 @@ class TableProducts extends Component {
         });
        
         if(this.checkInputs()) {
-            alert('Fill all the fields correctly');
+            this.setState({respons:'Fill all the fields correctly!'});
             return
         }
 
@@ -200,6 +201,8 @@ class TableProducts extends Component {
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
 
+        const data = ['name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority'];
+        
         return (
             <Col sm={{ size: 10, offset: 1 }}>
                 <h3> Products Table</h3>
@@ -210,72 +213,20 @@ class TableProducts extends Component {
                       updateProduct={this.updateProduct}
                       inputsChange={this.inputsChange}
                 />
+                <h2 className="res">{this.state.respons}</h2>
                 <h4> Enter added  product params </h4>
                 <Form>
-                    <Col sm={3}>
-                        <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new product name" name="name" value={this.state.name} required/> 
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new product type" name="type" value={this.state.type} required/>
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new product constly" name="constly"  pattern="\d*" value={this.state.constly} required/> 
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new product price" name="price"  pattern="\d*" value={this.state.price} required/> 
-                        </FormGroup>
-                    </Col>
+                    {data.map(item => ( 
+                        <Col sm={3}>
+                            <FormGroup> 
+                                <Input onChange={this.inputsChange} placeholder={item} name={item} value={this.state.item} type={(item === 'date1' || item === 'date2' ? "date" : "text")} required/> 
+                            </FormGroup>
+                        </Col>
+                    ))}
                     <Col sm={3}>
                         <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new product quantity" name="quantity" pattern="\d*" value={this.state.quantity} required/> 
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup> 
-                            <Input onChange={this.inputsChange} name="status" placeholder="Enter new product status" value={this.state.status} required/>
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Input
-                             type="date"
-                             name="date1"
-                             value={this.state.date1}
-                             id="exampleDate"
-                             placeholder="date1 placeholder"
-                             onChange={this.inputsChange}
-                            />
-                    </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Input
-                             type="date"
-                             name="date2"
-                             value={this.state.date2}
-                             id="exampleDate"
-                             placeholder="date2 placeholder"
-                             onChange={this.inputsChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Input onChange={this.inputsChange} type="number" pattern="\d*" placeholder="Enter priority" name="priority" pattern="\d*" value={this.state.priority} required/> 
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Button color="info" onClick={this.addProduct}>
-                                Add
-                            </Button>
+                            <Button color="info" onClick={this.addProduct}>Add
+                        </Button>
                         </FormGroup>
                     </Col>
                 </Form>   

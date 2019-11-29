@@ -11,7 +11,8 @@ class TableSenders extends Component {
             data: [],
             filteredList: [],
             name: '',
-            surname: ''
+            surname: '',
+            respons: ''
         };
         this.fetchCall = fetchCall.bind(this);
     }
@@ -64,7 +65,7 @@ class TableSenders extends Component {
     addSender = (e) => {
         e.preventDefault();
         if(this.checkInputs()) {
-            alert('Fill all the fields correctly');
+            this.setState({respons:'Fill all the fields correctly!'});
             return
         }
         const newSender = this.createNewSender();
@@ -96,7 +97,7 @@ class TableSenders extends Component {
         });
        
         if(this.checkInputs()) {
-            alert('Fill all the fields correctly');
+            this.setState({respons:'Fill all the fields correctly!'});
             return
         }
 
@@ -139,6 +140,8 @@ class TableSenders extends Component {
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
 
+        const data = ['name', 'surname'];
+
         return (
             <Col sm={{ size: 10, offset: 1 }}>
                 <h3> Senders Table</h3>
@@ -149,22 +152,19 @@ class TableSenders extends Component {
                     updateSender={this.updateSender}
                     inputsChange={this.inputsChange}
                 />
+                <h2 className="res">{this.state.respons}</h2>
                 <h4> Enter added sender params </h4>
                 <Form>
-                    <Col sm={3}>
-                        <FormGroup> 
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender name" name="name" value={this.state.name} required/> 
-                        </FormGroup>
-                    </Col>
-                    <Col sm={3}>
-                        <FormGroup>
-                            <Input onChange={this.inputsChange} placeholder="Enter new sender surname" name="surname" value={this.state.surname} required/>
-                        </FormGroup>
-                    </Col>
+                    {data.map(item => ( 
+                        <Col sm={3}>
+                            <FormGroup> 
+                                <Input onChange={this.inputsChange} placeholder={item} name={item} value={this.state.item} required/> 
+                            </FormGroup>
+                        </Col>
+                    ))}
                     <Col sm={3}>
                         <FormGroup>
-                            <Button color="info" onClick={this.addSender}>      Add
-                            </Button>
+                            <Button color="info" onClick={this.addSender}>Add</Button>
                         </FormGroup>
                     </Col>
                 </Form>
