@@ -6,7 +6,10 @@ import { ModifyModal } from './Modal';
 class  List extends Component {
 
     render () {
+
         const theadData = ['N', 'name', 'status', 'Modify', 'Delete'];
+        const {shops, sort, updateShop, inputsChange, deleteShop} = this.props;
+
         return (
             <Table dark>
                 <thead>
@@ -16,7 +19,7 @@ class  List extends Component {
                             <th> {item} </th>
                         ) : (
                             <th> 
-                                <Button outline color="info" onClick={this.props.sort.bind(this, item)}> 
+                                <Button outline color="info" onClick={sort.bind(this, item)}> 
                                     {item} ^
                                 </Button>
                             </th>
@@ -25,7 +28,7 @@ class  List extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.shops.map((item, index) => (
+                    {shops.map((item, index) => (
                     <tr key={item.id}>
                         <td> {index + 1} </td>
                         <td> {item.name} </td>
@@ -33,12 +36,12 @@ class  List extends Component {
 
                         <ModifyModal 
                         className="modal" item={item}
-                        updateShop={this.props.updateShop}
-                        onChange={this.props.inputsChange}
+                        updateShop={updateShop}
+                        onChange={inputsChange}
                         />
                         <td> 
                             <Button color="danger"  onClick=
-                            {this.props.deleteShop.bind(this, item.id)} >
+                            {deleteShop.bind(this, item.id)} >
                                 Delete 
                             </Button>
                         </td>

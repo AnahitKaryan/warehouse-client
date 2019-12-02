@@ -6,7 +6,10 @@ import { ModifyModal } from './Modal';
 class  List extends Component {
 
     render () {
+
         const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'Modify', 'Delete'];
+        const {products, sort, updateProduct, inputsChange, deleteProduct} = this.props;
+        
         return (
             <Table dark>
                 <thead>
@@ -16,7 +19,7 @@ class  List extends Component {
                             <th> {item} </th>
                         ) : (
                             <th> 
-                                <Button outline color="info" onClick={this.props.sort.bind(this, item)}> 
+                                <Button outline color="info" onClick={sort.bind(this, item)}> 
                                     {item} ^
                                 </Button>
                             </th>
@@ -25,7 +28,7 @@ class  List extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.products.map((item, index) => (
+                    {products.map((item, index) => (
                     <tr key={item.id}>
                         <td> {index + 1} </td>
                         <td> {item.name} </td>
@@ -40,11 +43,11 @@ class  List extends Component {
 
                         <ModifyModal 
                         className="modal" item={item}
-                        updateProduct={this.props.updateProduct}
-                        onChange={this.props.inputsChange}
+                        updateProduct={updateProduct}
+                        onChange={inputsChange}
                         />
                         <td> 
-                            <Button color="danger"  onClick={this.props.deleteProduct.bind(this, item.id)} >
+                            <Button color="danger"  onClick={deleteProduct.bind(this, item.id)} >
                                 Delete 
                             </Button>
                         </td>

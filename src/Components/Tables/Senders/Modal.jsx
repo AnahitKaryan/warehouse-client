@@ -25,14 +25,17 @@ class ModifyModal extends Component {
 
     render() {
         const { open } = this.state;
+        const { onChange } = this.props;
+        const data = ['name', 'surname'];
         return (
             <div>
                 <Button color="success" onClick={this.onOpenModal} className="modify"> Modify </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <h3 color="info"> Modify sender params </h3>
                     <form>
-                        <input onChange={this.props.onChange} defaultValue={this.state.name} name="name" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.state.surname} name="surname" required/>
+                       {data.map(element => ( 
+                            <input onChange={onChange} defaultValue={this.state[element]} name={element} required/> 
+                        ))}
                     </form>
                     <Button color="info" onClick={this.onCloseModal}> Confirmed </Button>
                 </Modal>

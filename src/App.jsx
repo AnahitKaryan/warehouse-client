@@ -15,6 +15,6 @@ class App extends React.Component {
         </BrowserRouter>
         );
     }
-}
+};
 
 export { App };

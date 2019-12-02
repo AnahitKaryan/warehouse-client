@@ -32,33 +32,17 @@ class ModifyModal extends Component {
 
     render() {
         const { open } = this.state;
+        const data = ['name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority'];
+        const { onChange } = this.props;
         return (
             <div>
                 <Button color="success" onClick={this.onOpenModal} className="modify"> Modify </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <h3 color="info"> Modify product params </h3>
                     <form>
-                        <input onChange={this.props.onChange} defaultValue={this.state.name} name="name" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.state.type} name="type" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.state.constly} name="constly"  pattern="\d*" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.state.price}  name="price" pattern="\d*" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.state.quantity} name="quantity" pattern="\d*" required/>
-                        <input onChange={this.props.onChange} defaultValue={this.state.status} name="status" required/>
-                        <input
-                         type="date"
-                         name="date1"
-                         id="exampleDate"
-                         defaultValue={this.state.date1}
-                         onChange={this.props.onChange}
-                       />
-                       <input
-                         type="date"
-                         name="date2"
-                         id="exampleDate"
-                         defaultValue={this.state.date2}
-                         onChange={this.props.onChange}
-                       />
-                        <input onChange={this.props.onChange} defaultValue={this.state.priority} name="priority" type="number" pattern="\d*" required/>
+                        {data.map(element => ( 
+                            <input onChange={onChange} placeholder={element} name={element} defaultValue={this.state[element]} type={(element === 'date1' || element === 'date2' ? "date" : "text")} required/> 
+                        ))}
                     </form>
                     <Button color="info" onClick={this.onCloseModal}> Confirmed </Button>
                 </Modal>
