@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
 
+import { Header } from './../../Header';
+import { Footer } from './../../Footer';
 import {List } from './List';
 import { ModifyModal } from './Modal';
 import { fetchCall } from '../../../DAO/DAO.js';
@@ -12,8 +14,7 @@ class TableShops extends Component {
             data: [],
             filteredList: [],
             name: '',
-            status: '',
-            respons: ''
+            status: ''
         };
         this.fetchCall = fetchCall.bind(this);
     }
@@ -26,21 +27,13 @@ class TableShops extends Component {
     }
 
     checkInputs = () => {
-        const check = this.state.name.length === 0 ||
-                      this.state.status.length === 0 ;
-        return check;
+        return this.state.name.length === 0 || this.state.status.length === 0 ;
     }
 
     inputsChange = (e) => {
         const targetName = e.target.name;
         const targetValue = e.target.value;
         this.setState({[targetName]: targetValue});
-
-        if(this.checkInputs()) {
-            this.setState({respons:'Fill all the fields correctly!'});
-        } else {
-            this.setState({respons:''});
-        }
     }
 
     deleteShop = (id) => {
@@ -65,17 +58,11 @@ class TableShops extends Component {
         const newShop = {};
         newShop.name = this.state.name;
         newShop.status = this.state.status;
-        console.log('neeeee' + newShop)
         return newShop;
     }
 
     addShop = (e) => {
         e.preventDefault();
-
-        if(this.checkInputs()) {
-            this.setState({respons:'Fill all the fields correctly!'});
-            return
-        }
 
         const newShop = this.createNewShop();
         newShop.id = this.state.data.length > 0 ? this.state.data[this.state.data.length - 1].id + 1 : 0;
@@ -96,20 +83,18 @@ class TableShops extends Component {
             status: ''
         }));
 
+        return true;
     }
 
-    updateShop = (e, item) => {
-        e.preventDefault();
+    addItem = (item) => {
         this.setState({
             name: item.name ,
             status: item.status
         });
-       
-        if(this.checkInputs()) {
-            this.setState({respons:'Fill all the fields correctly!'});
-            return
-        }
+    }
 
+    updateShop = (e, item) => {
+        e.preventDefault();
         const newShop = this.createNewShop();
         newShop.id = item.id;
         
@@ -152,25 +137,34 @@ class TableShops extends Component {
         const data = ['name', 'status'];
 
         return (
-            <Col sm={{ size: 10, offset: 1 }}>
-                <h3> 
-                    Shops Table
-                     <ModifyModal 
-                        className="modal" 
-                        respons={this.state.respons}                       addShop={this.addShop}
-                        onChange={this.inputsChange}
-                        mod="add"
+            <div>
+                <Header history={this.props.history}/>
+                <br/>
+                <Col sm={{ size: 10, offset: 1 }}>
+                    <h3 className="mt-5 text-center text-warning text-uppercase font-weight-bold"> 
+                        Shops Table
+                         <ModifyModal 
+                            className="modal" 
+                            addShop={this.addShop}
+                            onChange={this.inputsChange}
+                            checkInputs ={this.checkInputs}
+                            mod="add"
+                        />
+                    </h3>
+                    <h5>Search</h5>
+                    <input  placeholder="Enter the search text &#9906;" value={this.state.searchText} onChange={this.search}/>
+                    <List shops={list}
+                        deleteShop={this.deleteShop}
+                        sort={this.sort}
+                        updateShop={this.updateShop}
+                        inputsChange={this.inputsChange}
+                        checkInputs ={this.checkInputs}
+                        addItem={this.addItem}
                     />
-                </h3>
-                <input  placeholder="Enter the search text &#9740;" value={this.state.searchText} onChange={this.search}/>
-                <List shops={list}
-                    deleteShop={this.deleteShop}
-                    sort={this.sort}
-                    updateShop={this.updateShop}
-                    inputsChange={this.inputsChange}
-                    respons={this.state.respons} 
-                />
-            </Col>
+                </Col>
+                <br/><br/>
+                <Footer/>
+            </div>
         );
     }
 }

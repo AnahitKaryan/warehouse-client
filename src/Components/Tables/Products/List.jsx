@@ -13,7 +13,7 @@ class  List extends Component {
     render () {
 
         const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'Modify', 'Delete'];
-        const {products, sort, updateProduct, inputsChange, deleteProduct} = this.props;
+        const {products, sort, updateProduct, inputsChange, deleteProduct, checkInputs, addItem, isNumeric } = this.props;
         
         return (
             <Table hover responsive>
@@ -55,7 +55,9 @@ class  List extends Component {
                         updateProduct={updateProduct}
                         onChange={inputsChange}
                         mod="update"
-                        respons={this.state.respons} 
+                        checkInputs={checkInputs}
+                        addItem={addItem}
+                        isNumeric={isNumeric}
                         />
                         <td>
                             <Button close  onClick=

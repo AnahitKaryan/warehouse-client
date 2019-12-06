@@ -4,6 +4,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Login } from './Components/Login';
 import { Register } from './Components/Register';
 import { Home } from './Components/Home';
+import { TableProducts } from './Components/Tables/Products/TableProducts';
+import { TableShops } from './Components/Tables/Shops/TableShops';
+import { TableSenders } from './Components/Tables/Senders/TableSenders';
 
 class App extends React.Component {
     render() {
@@ -12,6 +15,9 @@ class App extends React.Component {
             <Route path='/' exact component={Login}/>
             <Route path='/register' component={Register}  />
             <Route path='/home' component={Home}/>
+            <Route path='/productsList' component={TableProducts}/>
+            <Route path='/shopsList' component={TableShops}/>
+            <Route path='/sendersList' component={TableSenders}/>
         </BrowserRouter>
         );
     }

@@ -43,7 +43,7 @@ class Login extends Component {
     render() {
         return (
             <Form className="user-data-form" noValidate>
-                <h2 className="res">{this.state.respons}</h2>
+                <h3 className="res">{this.state.respons}</h3>
                 <h2 className="user-data-form__title">Sign In</h2>
                 <Col>
                     <FormGroup>

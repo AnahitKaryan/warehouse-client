@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Col, Container } from 'reactstrap';
 
+import { Header } from './../../Header';
+import { Footer } from './../../Footer';
 import {List } from './List';
 import { ModifyModal } from './Modal';
 import { fetchCall } from '../../../DAO/DAO.js';
@@ -12,8 +14,7 @@ class TableSenders extends Component {
             data: [],
             filteredList: [],
             name: '',
-            surname: '',
-            respons: ''
+            surname: ''
         };
         this.fetchCall = fetchCall.bind(this);
     }
@@ -56,9 +57,8 @@ class TableSenders extends Component {
     }
 
     checkInputs = () => {
-        const check = this.state.name.length === 0 ||
-                    this.state.surname.length === 0 ;
-        return check;
+        return this.state.name.length === 0 || this.state.surname.length === 0 ;
+        
     }
 
     createNewSender = () => {
@@ -96,17 +96,15 @@ class TableSenders extends Component {
 
     }
 
-    updateSender = (e, item) => {
-        e.preventDefault();
+    addItem = (item) => {
         this.setState({
             name: item.name ,
             surname: item.surname
         });
-       
-        if(this.checkInputs()) {
-            this.setState({respons:'Fill all the fields correctly!'});
-            return
-        }
+    }
+
+    updateSender = (e, item) => {
+        e.preventDefault();
 
         const newSender = this.createNewSender();
         newSender.id = item.id;
@@ -150,25 +148,34 @@ class TableSenders extends Component {
         const data = ['name', 'surname'];
 
         return (
-            <Col sm={{ size: 10, offset: 1 }}>
-                <h3> 
-                    Senders Table
-                    <ModifyModal 
-                        className="modal" 
-                        respons={this.state.respons}                       addShop={this.addSender}
-                        onChange={this.inputsChange}
-                        mod="add"
+            <Container fluid>
+                <Header history={this.props.history}/>
+                <br/>
+                <Col sm={{ size: 10, offset: 1 }}>
+                    <h3 className="mt-5 text-center text-warning text-uppercase font-weight-bold"> 
+                        Senders Table
+                        <ModifyModal 
+                            className="modal" 
+                            respons={this.state.respons}                       addShop={this.addSender}
+                            onChange={this.inputsChange}
+                            checkInputs ={this.checkInputs}
+                            mod="add"
+                        />
+                    </h3>
+                    <h5>Search</h5>
+                    <input  placeholder="Enter the search text  &#9906;" value={this.state.searchText} onChange={this.search}/>
+                    <List senders={list}
+                        deleteSender={this.deleteSender}
+                        sort={this.sort}
+                        updateSender={this.updateSender}
+                        inputsChange={this.inputsChange}
+                        checkInputs ={this.checkInputs}
+                        addItem={this.addItem}
                     />
-                </h3>
-                <input  placeholder="Enter the search text" value={this.state.searchText} onChange={this.search}/>
-                <List senders={list}
-                    deleteSender={this.deleteSender}
-                    sort={this.sort}
-                    updateSender={this.updateSender}
-                    inputsChange={this.inputsChange}
-                    respons={this.state.respons} 
-                />
-            </Col>
+                </Col>
+                <br/><br/>
+                <Footer/>
+            </Container>
         );
     }
 }

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
 
+import { Header } from './../../Header';
+import { Footer } from './../../Footer';
 import {List } from './List';
 import { ModifyModal } from './Modal';
 import { fetchCall } from '../../../DAO/DAO.js';
@@ -11,7 +13,6 @@ class TableProducts extends Component {
         this.state = {
             data: [],
             filteredList: [],
-            respons: '',
             name: '',
             type: '',
             constly: '', 
@@ -63,17 +64,22 @@ class TableProducts extends Component {
     }
 
     checkInputs = () => {
-        const check = this.state.name.length === 0 ||
-                      this.state.type.length === 0 ||
-                      this.state.constly.length === 0 ||
-                      this.state.price.length === 0 ||
-                      this.state.quantity.length === 0 ||
-                      this.state.status.length === 0 ||
-                      this.state.date1.length === 0 ||
-                      this.state.date2.length === 0 ||
-                      this.state.priority.length === 0 ;
-        return check;
+        return this.state.name.length === 0 ||
+               this.state.type.length === 0 ||
+               this.state.constly.length === 0 ||
+               this.state.price.length === 0 ||
+               this.state.quantity.length === 0 ||
+               this.state.status.length === 0 ||
+               this.state.date1.length === 0 ||
+               this.state.date2.length === 0 ||
+               this.state.priority.length === 0 ;
     }
+
+    isNumeric = () => {
+        return isNaN(this.state.constly) || isNaN(this.state.price) ||
+             isNaN(this.state.quantity) || isNaN(this.state.priority);
+    }
+
     createNewProduct = () => {
         const newProduct = {};
         newProduct.name = this.state.name;
@@ -123,8 +129,7 @@ class TableProducts extends Component {
 
     }
 
-    updateProduct = (e, item) => {
-        e.preventDefault();
+    addItem = (item) => {
         this.setState({
             name: item.name ,
             type: item.type,
@@ -137,12 +142,11 @@ class TableProducts extends Component {
             priority: item.priority
             
         });
-       
-        if(this.checkInputs()) {
-            this.setState({respons:'Fill all the fields correctly!'});
-            return
-        }
+    }
 
+    updateProduct = (e, item) => {
+        e.preventDefault();
+        
         const newProduct = this.createNewProduct();
         newProduct.id = item.id;
         
@@ -211,25 +215,36 @@ class TableProducts extends Component {
         const data = ['name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority'];
         
         return (
-            <Col sm={{ size: 10, offset: 1 }}>
-                <h3> 
-                    Products Table
-                    <ModifyModal 
-                        className="modal" 
-                        respons={this.state.respons}                       addProduct={this.addProduct}
-                        onChange={this.inputsChange}
-                        mod="add"
+            <div>
+                <Header history={this.props.history}/>
+                <br/>
+                <Col sm={{ size: 12 }}>
+                    <h3 className="mt-5 text-center text-warning text-uppercase font-weight-bold"> 
+                        Products Table
+                        <ModifyModal 
+                            className="modal" 
+                            respons={this.state.respons}                       addProduct={this.addProduct}
+                            onChange={this.inputsChange}
+                            checkInputs ={this.checkInputs}
+                            isNumeric={this.isNumeric}
+                            mod="add"
+                        />
+                    </h3>
+                    <h5>Search</h5>
+                    <input  placeholder="Enter the search text &#9906;" value={this.state.searchText} onChange={this.search}/>
+                    <List products={list}
+                          deleteProduct={this.deleteProduct}
+                          sort={this.sort}
+                          updateProduct={this.updateProduct}
+                          inputsChange={this.inputsChange}
+                          checkInputs ={this.checkInputs}
+                          addItem={this.addItem}
+                          isNumeric={this.isNumeric}
                     />
-                </h3>
-                <input  placeholder="Enter the search text" value={this.state.searchText} onChange={this.search}/>
-                <List products={list}
-                      deleteProduct={this.deleteProduct}
-                      sort={this.sort}
-                      updateProduct={this.updateProduct}
-                      inputsChange={this.inputsChange}
-                      respons={this.state.respons}
-                />
-            </Col>
+                </Col>
+                <br/><br/>
+                <Footer/>
+            </div>
         );
     }
 }

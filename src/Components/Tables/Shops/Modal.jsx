@@ -8,60 +8,86 @@ class ModifyModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
+            open: false,
+            respons: ''
         };
     }
 
     onOpenModal = () => {
-        this.setState({ open: true });
+        this.setState({
+            respons: '',
+            open: true
+        });
+
+        if(this.props.mod === 'update') {
+            this.props.addItem(this.props.item);
+        }
     };
  
-    onCloseModal = (e) => {
-        if(this.props.respons === ''){
-            if(this.props.mod === 'add') {
-                this.props.addShop(e);
-            } else  if(this.props.mod === 'update'){
-                this.props.updateShop(e, this.props.item);
-            }
-            this.setState({ open: false });
-        } 
+    onCloseModal = () => {
+        this.setState({ open: false });
     };  
 
+    confirmed = (e) => {
+
+        if(this.props.mod === 'add') {
+
+            if(!this.props.checkInputs()) {
+                this.setState({ respons: '' });
+                this.props.addShop(e)
+                this.setState({ open: false });
+            } else {
+                this.setState({respons:'Fill all the fields correctly!'});
+                return;
+            }
+
+        } else  if(this.props.mod === 'update'){
+            if(!this.props.checkInputs()) {
+                this.setState({ respons: '' });
+                this.props.updateShop(e, this.props.item)
+                this.setState({ open: false });
+            } else {
+                this.setState({respons:'Fill all the fields correctly!'});
+                return;
+            }
+        }
+    }
+
     render() {
-        const { open } = this.state;
-        const { onChange, mod, item,respons } = this.props;
+        const { open, respons } = this.state;
+        const { onChange, mod, item } = this.props;
         const data = ['name', 'status'];
         let renderData;
         if (mod === 'add') {
             renderData = <div>
-                <Button close aria-label="Cancel" onClick={this.onOpenModal} className="modify">
+                <Button close onClick={this.onOpenModal} className="modify">
                     <span> &#10133;</span>
                 </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
-                    <h3 color="info"> Enter new shop params </h3>
+                    <h3 color="warning"> Enter new shop params </h3>
                     <form>
                         {data.map(element => ( 
                             <input onChange={onChange} name={element} placeholder={element} required/> 
                         ))}
                     </form>
                     <p className="res">{respons}</p>
-                    <Button color="info" onClick={this.onCloseModal}> Confirmed </Button>
+                    <Button color="warning" onClick={this.confirmed}> Confirmed </Button>
                 </Modal>
             </div>
         } else if(mod === 'update') {
             renderData = <div>
-                <Button close aria-label="Cancel" onClick={this.onOpenModal} className="modify">
+                <Button close onClick={this.onOpenModal} className="modify">
                     <span>&#9997;</span>
                 </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
-                    <h3 color="info"> Modify shop params </h3>
+                    <h3 color="warning"> Modify shop params </h3>
                     <form>
                         {data.map(element => ( 
                             <input onChange={onChange} defaultValue={item[element]} name={element} required/> 
                         ))}
                     </form>
                     <p className="res">{respons}</p>
-                    <Button color="info" onClick={this.onCloseModal}> Confirmed </Button>
+                    <Button color="warning" onClick={this.confirmed}> Confirmed </Button>
                 </Modal>
             </div>
         }

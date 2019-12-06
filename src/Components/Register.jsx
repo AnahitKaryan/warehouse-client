@@ -136,7 +136,7 @@ class Register extends Component {
         const {errors} = this.state;
         return (
             <Form className="user-data-form" noValidate>
-                <h2 className="res">{this.state.respons}</h2>
+                <h3 className="res">{this.state.respons}</h3>
                 <h2 className="user-data-form__title">Register</h2>
                 <FormGroup>
                     <Label className="user-data-form__label" >Email</Label>
