@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import { Button } from 'reactstrap';
-import ReactDOM from 'react-dom';
 import Modal from 'react-responsive-modal';
-import '../../../assets/styles.css';
 
 class ModifyModal extends Component {
     constructor(props) {
@@ -70,7 +68,7 @@ class ModifyModal extends Component {
         if (mod === 'add') {
             renderData = <div>
                 <Button close onClick={this.onOpenModal} className="modify">
-                    <span> &#10133;</span>
+                    <span role="img" aria-label="Close"> &#10133;</span>
                 </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <h3 color="warning"> Enter new history params </h3>
@@ -86,7 +84,7 @@ class ModifyModal extends Component {
         } else if(mod === 'update') {
             renderData = <div>
                 <Button close onClick={this.onOpenModal} className="modify">
-                    <span>&#9997;</span>
+                    <span role="img" aria-label="Close">&#9997;</span>
                 </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
                     <h3 color="warning"> Modify history params </h3>

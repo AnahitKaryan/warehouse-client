@@ -1,0 +1,52 @@
+.modify {
+	margin-top: 10px;
+}
+.res {
+	color: red;
+}
+span {
+	font-size:20px;
+}
+.sideNav {
+	display: flex;
+	flex-direction: row;
+  	 justify-content: center;
+}
+.navItem {
+	flex: 1
+}
+
+.footer {
+    position: fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:10%;
+}
+.header {
+    height: 50px;
+    width:100%;
+	position: fixed;
+	left: 0;
+    top: 0;
+    z-index: 1;
+}
+.content {
+    top: 50px; 
+    height: 100vh;
+    z-index: 0;
+    left: 0;
+}
+
+.custom-tag {
+    max-width: 100%;
+    height: 90vh;
+}
+.buttonStyles {
+    border: "1px solid #ccc";
+    background: "#fff";
+    font-size: "1em";
+    padding: 10;
+    margin: 5;
+    width: 70;
+}

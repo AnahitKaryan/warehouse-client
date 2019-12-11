@@ -6,6 +6,7 @@ import {
 } from 'reactstrap';
 
 import { fetchCall } from '../DAO/DAO.js';
+import '../assets/css/userDataForm.css';
 
 class Register extends Component {
     state = {
@@ -38,7 +39,7 @@ class Register extends Component {
     checkValidation = (event) => {
         const { name, value } = event.target;
         let errors = this.state.errors;
-        const validEmailRegex =  RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+        const validEmailRegex =  RegExp(/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i);
 
         switch (name) {
             case 'name':
@@ -76,10 +77,9 @@ class Register extends Component {
     }
 
     inputsChange = (e) => { 
-        const targetName = e.target.name;
         const targetValue = e.target.value;
 
-        this.setState({targetName: targetValue});
+        this.setState({[e.target.name]: targetValue});
         this.checkValidation(e);
 
         if(!this.validateForm(this.state.errors)){

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
+import { Col, Container } from 'reactstrap';
 
 import { Header } from './../../Header';
 import { Footer } from './../../Footer';
@@ -29,16 +29,15 @@ class TableProducts extends Component {
         this.fetchCall('products', 'GET')
         .then(response => response.json())
         .then(data => this.setState({ data: data.map((element) => {
+            const date2 = new Date(element.date2);
+            const currentDate = new Date();
 
-                const date2 = new Date(element.date2);
-                const currentDate = new Date();
-
-                if (currentDate > date2) {
-                    element.status = 'Not useful';
-                } else {
-                    element.status = 'Is useful';
-                } 
-                return element;
+            if (currentDate > date2) {
+                element.status = 'Not useful';
+            } else {
+                element.status = 'Is useful';
+            } 
+            return element;
             })
         }))
         .catch(error => console.log('Fetch Error :-S', error));
@@ -146,7 +145,7 @@ class TableProducts extends Component {
             if(notUsefulCount > 0) {
                 newProduct.priority = -(notUsefulCount * oneBenefit);
             } else {
-                newProduct.priority = oneBenefit;
+                newProduct.priority = 0;
             }
         } else {
             newProduct.priority = totalBenefit - (notUsefulCount * oneBenefit);
@@ -186,7 +185,6 @@ class TableProducts extends Component {
             date1: '',
             date2: ''
         }));
-
     }
 
     addItem = (item) => {
@@ -268,7 +266,7 @@ class TableProducts extends Component {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
         
         return (
-            <div>
+            <Container fluid>
                 <Header history={this.props.history}/>
                 <br/>
                 <Col sm={{ size: 12 }}>
@@ -296,7 +294,7 @@ class TableProducts extends Component {
                 </Col>
                 <br/><br/>
                 <Footer/>
-            </div>
+            </Container>
         );
     }
 }

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import '../assets/styles.css';
+import '../assets/css/userDataForm.css';
 import { fetchCall } from '../DAO/DAO.js';
 
-import {
-    Container, Col, Form,
-    FormGroup, Label, Input,
-    Button,
-} from 'reactstrap';
+import { Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 class Login extends Component {
     state = {

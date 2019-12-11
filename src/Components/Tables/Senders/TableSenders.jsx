@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Form, FormGroup, Input, Col, Container } from 'reactstrap';
+import { Col, Container } from 'reactstrap';
 
 import { Header } from './../../Header';
 import { Footer } from './../../Footer';
@@ -12,6 +12,7 @@ class TableSenders extends Component {
         super(props);
         this.state = {
             data: [],
+            history: [],
             filteredList: [],
             name: '',
             surname: ''
@@ -20,9 +21,28 @@ class TableSenders extends Component {
     }
 
     componentDidMount() {
+        this.fetchCall('histories', 'GET')
+        .then(response => response.json())
+        .then(history => this.setState({history}))
+        .catch(error => console.log('Fetch Error :-S', error));
+
+
         this.fetchCall('senders', 'GET')
         .then(response => response.json())
-        .then(data => this.setState({data}))
+        .then(data => this.setState({ data: data.map((element) => {
+
+                let totalBenefit = 0;
+
+                this.state.history.forEach((item) => {
+                    if(item.sender === element.name + ',' + element.surname) {
+                        totalBenefit += (item.price - item.constly) * item.quantity;
+                    }
+                })
+                element.priority = totalBenefit;
+
+                return element;
+            })
+        }))
         .catch(error => console.log('Fetch Error :-S', error));
     }
 
@@ -65,7 +85,8 @@ class TableSenders extends Component {
         const newSender = {};
         newSender.name = this.state.name;
         newSender.surname = this.state.surname;
-
+        newSender.priority = 0;
+        
         return newSender;
     }
 
@@ -93,7 +114,6 @@ class TableSenders extends Component {
             name: '',
             surname: ''
         }));
-
     }
 
     addItem = (item) => {
@@ -144,8 +164,6 @@ class TableSenders extends Component {
 
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
-
-        const data = ['name', 'surname'];
 
         return (
             <Container fluid>

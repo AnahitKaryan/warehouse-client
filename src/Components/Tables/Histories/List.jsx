@@ -7,7 +7,7 @@ import { PaginacionTabla } from './../paginacion/PaginacionTabla';
 class  List extends Component {
     state = {
         itemsperpage: 10,
-        nocolumns: 5
+        nocolumns: 15
     }
 
     render () {
@@ -67,10 +67,8 @@ class  List extends Component {
                             <Button close  onClick=
                             {deleteHistory.bind(this, item.id)} />
                         </td>
-                        
                     </tr>
                     ))}
-                    pagesspan={4}
                 />
           </Table>
         );

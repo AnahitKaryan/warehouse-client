@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
+import { Col, Container } from 'reactstrap';
 
 import { Header } from './../../Header';
 import { Footer } from './../../Footer';
@@ -102,6 +102,7 @@ class TableHistories extends Component {
 
         return newHistory;
     }
+
     addHistory = (e) => {
         e.preventDefault();
         if(this.checkInputs()) {
@@ -136,7 +137,6 @@ class TableHistories extends Component {
             shop: '',
             exportDate: '' 
         }));
-
     }
 
     addItem = (item) => {
@@ -227,11 +227,9 @@ class TableHistories extends Component {
 
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
-
-        const data = ['name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'sender', 'shop', 'exportDate'];
         
         return (
-            <div>
+            <Container fluid>
                 <Header history={this.props.history}/>
                 <br/>
                 <Col sm={{ size: 12 }}>
@@ -261,7 +259,7 @@ class TableHistories extends Component {
                 </Col>
                 <br/><br/>
                 <Footer/>
-            </div>
+            </Container>
         );
     }
 }

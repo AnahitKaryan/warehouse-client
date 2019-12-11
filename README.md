@@ -15,7 +15,7 @@ git clone https://github.com/AnahitKaryan/warehouse-client.git <br />
 
 cd warehouse-client <br />
 
-git checkout warehouse-client-branch <br />
+git checkout temp <br />
 
 In the `project` directory, you can `run`: <br />
 The first `install` dependencies nmp ci , then <br />
@@ -53,14 +53,31 @@ Open [http://localhost:5000] to view it in the browser.<br />
 
 ├── warehouse-client
 │   ├── src - Source codes.
-│   │   ├── assets - css files
-│   │   |   └── styles.css - user data form styles
+│   │   ├── assets - components styles and images
+│   │   |   ├── css - all styles
+│   │   |   |    ├── styles.css - whole styles
+│   │   |   |    └── userDataFor.css - user data form styles
+│   │   |   └── images - all images
+│   │   |        ├── product.jpg
+│   │   |        ├── sender.jpg
+│   │   |        ├── shop.jpg
+│   │   |        ├── w1.jpg
+│   │   |        ├── w2.jpg
+│   │   |        ├── w3.jpg
+│   │   |        └── warehouse.svg
 │   │   ├── Components
 │   │   |   ├── Tables - all tables
 │   │   |   |    ├── Products
 │   │   |   |    |   ├── List.jsx - products data create
 │   │   |   |    |   ├── Modal.jsx - products data change 
+│   │   |   |    |   ├── deleteModal.jsx - product delete params 
 │   │   |   |    |   └── TableProducts.jsx - products table
+│   │   |   |    ├── Histories
+│   │   |   |    |   ├── List.jsx - histories data create
+│   │   |   |    |   ├── Modal.jsx - histories data change 
+│   │   |   |    |   └── TableHistoriess.jsx - histories table
+│   │   |   |    ├── paginacion
+│   │   |   |    |   ├── PaginacionTabla.jsx - create table paginacion
 │   │   |   |    ├── Senders
 │   │   |   |    |   ├── List.jsx - senders data create
 │   │   |   |    |   ├── Modal.jsx - senders data change
@@ -69,9 +86,13 @@ Open [http://localhost:5000] to view it in the browser.<br />
 │   │   |   |        ├── List.jsx - shops data create
 │   │   |   |        ├── Modal.jsx- shops data change
 │   │   |   |        └── TableShops.jsx - shops table
-│   │   |   ├── Home.jsx
-│   │   |   ├── Login.jsx
-│   │   |   └── Register.jsx
+│   │   |   ├── Best.jsx - best partner component
+│   │   |   ├── Carousel.jsx - create slide component
+│   │   |   ├── Footer.jsx - create footer component
+│   │   |   ├── Header.jsx - create header component
+│   │   |   ├── Home.jsx - create home component
+│   │   |   ├── Login.jsx - create login form
+│   │   |   └── Register.jsx - create register form
 │   │   ├── configs - all files configuration settings
 │   │   |   └── config.js -Contains application configuration settings
 │   │   ├── DAO - Fetch request implementetion.

@@ -11,7 +11,7 @@ class  List extends Component {
     }
     render () {
 
-        const theadData = ['N', 'name', 'surname', 'Modify', 'Delete'];
+        const theadData = ['N', 'name', 'surname', 'priority', 'Modify', 'Delete'];
         const {senders, sort, updateSender, inputsChange, deleteSender, checkInputs, addItem} = this.props;
 
         return (
@@ -39,23 +39,24 @@ class  List extends Component {
                         <td> {index + 1} </td>
                         <td> {item.name} </td>
                         <td> {item.surname} </td>
-
-                        <ModifyModal 
-                        className="modal" 
-                        item={item}
-                        updateSender={updateSender}
-                        onChange={inputsChange}
-                        mod="update"
-                        checkInputs={checkInputs}
-                        addItem={addItem}
-                        />
+                        <td> {item.priority} </td>
+                        <td>
+                            <ModifyModal 
+                                className="modal" 
+                                item={item}
+                                updateSender={updateSender}
+                                onChange={inputsChange}
+                                mod="update"
+                                checkInputs={checkInputs}
+                                addItem={addItem}
+                            />
+                        </td>
                         <td>
                             <Button close  onClick=
                             {deleteSender.bind(this, item.id)} />
                         </td>
                     </tr>
                     ))}
-                    pagesspan={4}
                 />
           </Table>
         );

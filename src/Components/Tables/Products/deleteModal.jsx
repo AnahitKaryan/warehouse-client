@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import { Button, Label, Input, FormGroup } from 'reactstrap';
-import ReactDOM from 'react-dom';
 import Modal from 'react-responsive-modal';
 
 import { fetchCall } from '../../../DAO/DAO.js';
-import '../../../assets/styles.css';
 
 class DeleteModal extends Component {
     constructor(props) {

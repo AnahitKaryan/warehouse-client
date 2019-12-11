@@ -11,10 +11,6 @@ import {
     Nav,
     NavItem,
     NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
     Button,
     Container
 } from 'reactstrap';
@@ -25,8 +21,7 @@ class Header extends Component {
         super(props);
         this.state = {
             respons: '',
-            isOpen: false, 
-            setIsOpen: false
+            isOpen: false
         }
     }
 
@@ -47,7 +42,7 @@ class Header extends Component {
     
     render() {
 
-        const {isOpen, setIsOpen} = this.state;
+        const {isOpen} = this.state;
         const toggle = () => this.setState({isOpen: !isOpen});
 
         return (
@@ -70,16 +65,16 @@ class Header extends Component {
                                 <NavLink className="text-white" href="/productsList">Products</NavLink>
                             </NavItem>
                             <NavItem className="mr-5">
-                                <NavLink className="text-white" href="/SendersList">Senders</NavLink>
+                                <NavLink className="text-white" href="/sendersList">Senders</NavLink>
                             </NavItem>
                             <NavItem className="mr-5">
-                                <NavLink className="text-white" href="/ShopsList">Shops</NavLink>
+                                <NavLink className="text-white" href="/shopsList">Shops</NavLink>
                             </NavItem>
                             <NavItem className="mr-5">
-                                <NavLink className="text-white" href="/HistoriesList">History</NavLink>
+                                <NavLink className="text-white" href="/historiesList">History</NavLink>
                             </NavItem>
                             <NavItem className="mr-5">
-                                <NavLink className="text-white" href="/Best">Best &#9734;</NavLink>
+                                <NavLink className="text-white" href="/best">Best &#9734;</NavLink>
                             </NavItem>
                          </Nav>
                          <Button className="mr-5" color="warning" onClick={this.logOut}>Log Out</Button>

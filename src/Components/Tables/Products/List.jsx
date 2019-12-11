@@ -1,5 +1,5 @@
 import React ,{Component} from 'react';
-import { Table, Button } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 import { ModifyModal } from './Modal';
 import { DeleteModal } from './deleteModal';
@@ -8,13 +8,13 @@ import { PaginacionTabla } from './../paginacion/PaginacionTabla';
 class  List extends Component {
     state = {
         itemsperpage: 10,
-        nocolumns: 5
+        nocolumns: 12
     }
 
     render () {
 
         const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'Modify', 'Delete'];
-        const {products, sort, updateProduct, inputsChange, deleteProduct, checkInputs, addItem, isNumeric } = this.props;
+        const {products, sort, updateProduct, inputsChange, deleteProduct, checkInputs, addItem } = this.props;
         
         return (
             <Table hover responsive>
@@ -51,26 +51,24 @@ class  List extends Component {
                         <td> {item.priority} </td>
                         <td>
                             <ModifyModal 
-                            className="modal" 
-                            item={item}
-                            updateProduct={updateProduct}
-                            onChange={inputsChange}
-                            mod="update"
-                            checkInputs={checkInputs}
-                            addItem={addItem}
+                                className="modal" 
+                                item={item}
+                                updateProduct={updateProduct}
+                                onChange={inputsChange}
+                                mod="update"
+                                checkInputs={checkInputs}
+                                addItem={addItem}
                             />
                         </td>
                          <td>
                             <DeleteModal 
-                            className="modal" 
-                            item={item}
-                            deleteProduct={deleteProduct}
-                            
+                                className="modal" 
+                                item={item}
+                                deleteProduct={deleteProduct}
                             />
                         </td>    
                     </tr>
                     ))}
-                    pagesspan={4}
                 />
           </Table>
         );

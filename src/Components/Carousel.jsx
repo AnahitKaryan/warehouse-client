@@ -93,7 +93,7 @@ class Slide extends Component {
     });
 
     return (
-        <Container fluid className="slide">
+        <Container fluid className="content">
             <Carousel
               activeIndex={activeIndex}
               next={this.next}

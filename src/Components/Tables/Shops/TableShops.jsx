@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Form, FormGroup, Input, Col } from 'reactstrap';
+import { Col, Container } from 'reactstrap';
 
 import { Header } from './../../Header';
 import { Footer } from './../../Footer';
@@ -12,22 +12,41 @@ class TableShops extends Component {
         super(props);
         this.state = {
             data: [],
+            history: [],
             filteredList: [],
-            name: '',
-            status: ''
+            name: ''
         };
         this.fetchCall = fetchCall.bind(this);
     }
 
     componentDidMount() {
+        this.fetchCall('histories', 'GET')
+        .then(response => response.json())
+        .then(history => this.setState({history}))
+        .catch(error => console.log('Fetch Error :-S', error));
+
         this.fetchCall('shops', 'GET')
         .then(response => response.json())
-        .then(data => this.setState({data}))
+        .then(data => this.setState({ data: data.map((element) => {
+
+                let totalBenefit = 0;
+
+                this.state.history.forEach((item) => {
+                    if(item.shop === element.name) {
+                        totalBenefit += (item.price - item.constly) * item.quantity;
+                    }
+                })
+                element.priority = totalBenefit;
+
+                return element;
+            })
+        }))
         .catch(error => console.log('Fetch Error :-S', error));
+    
     }
 
     checkInputs = () => {
-        return this.state.name.length === 0 || this.state.status.length === 0 ;
+        return this.state.name.length === 0;
     }
 
     inputsChange = (e) => {
@@ -57,7 +76,8 @@ class TableShops extends Component {
     createNewShop = () => {
         const newShop = {};
         newShop.name = this.state.name;
-        newShop.status = this.state.status;
+        newShop.priority = 0;
+
         return newShop;
     }
 
@@ -134,10 +154,8 @@ class TableShops extends Component {
     render () {
         const list = this.state.searchText ? this.state.filteredList : this.state.data;
 
-        const data = ['name', 'status'];
-
         return (
-            <div>
+            <Container fluid>
                 <Header history={this.props.history}/>
                 <br/>
                 <Col sm={{ size: 10, offset: 1 }}>
@@ -164,7 +182,7 @@ class TableShops extends Component {
                 </Col>
                 <br/><br/>
                 <Footer/>
-            </div>
+            </Container>
         );
     }
 }

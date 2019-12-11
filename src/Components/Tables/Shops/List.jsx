@@ -12,7 +12,7 @@ class  List extends Component {
 
     render () {
 
-        const theadData = ['N', 'name', 'status', 'Modify', 'Delete'];
+        const theadData = ['N', 'name', 'priority', 'Modify', 'Delete'];
         const {shops, sort, updateShop, inputsChange, deleteShop, checkInputs, addItem} = this.props;
 
         return (
@@ -40,24 +40,24 @@ class  List extends Component {
                     <tr key={item.id}>
                         <td> {index + 1} </td>
                         <td> {item.name} </td>
-                        <td> {item.status} </td>
-
-                        <ModifyModal 
-                        className="modal" 
-                        item={item}
-                        updateShop={updateShop}
-                        onChange={inputsChange}
-                        mod="update"
-                        checkInputs={checkInputs}
-                        addItem={addItem}
+                        <td> {item.priority} </td>
+                        <td>
+                            <ModifyModal 
+                                className="modal" 
+                                item={item}
+                                updateShop={updateShop}
+                                onChange={inputsChange}
+                                mod="update"
+                                checkInputs={checkInputs}
+                                addItem={addItem}
                         />
+                        </td>
                         <td>
                             <Button close  onClick=
                             {deleteShop.bind(this, item.id)} />
                         </td>
                     </tr>
                     ))}
-                    pagesspan={4}
                 />
           </Table>
         );
