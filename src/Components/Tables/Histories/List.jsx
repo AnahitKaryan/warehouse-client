@@ -2,7 +2,6 @@ import React ,{Component} from 'react';
 import { Table, Button } from 'reactstrap';
 
 import { ModifyModal } from './Modal';
-import { DeleteModal } from './deleteModal';
 import { PaginacionTabla } from './../paginacion/PaginacionTabla';
 
 class  List extends Component {
@@ -13,8 +12,8 @@ class  List extends Component {
 
     render () {
 
-        const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'Modify', 'Delete'];
-        const {products, sort, updateProduct, inputsChange, deleteProduct, checkInputs, addItem, isNumeric } = this.props;
+        const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'sender', 'shop', 'exportDate', 'Modify', 'Delete'];
+        const { histories, sort, updateHistory, inputsChange, deleteHistory , checkInputs, addItem, isNumeric } = this.props;
         
         return (
             <Table hover responsive>
@@ -37,7 +36,7 @@ class  List extends Component {
                 <PaginacionTabla
                     itemsperpage={this.state.itemsperpage}
                     nocolumns={this.state.nocolumns}
-                    items={products.map((item, index) => (
+                    items={histories.map((item, index) => (
                     <tr key={item.id}>
                         <td> {index + 1} </td>
                         <td> {item.name} </td>
@@ -49,25 +48,26 @@ class  List extends Component {
                         <td> {item.date1} </td>
                         <td> {item.date2} </td>
                         <td> {item.priority} </td>
+                        <td> {item.sender} </td>
+                        <td> {item.shop} </td>
+                        <td> {item.exportDate} </td>
                         <td>
                             <ModifyModal 
                             className="modal" 
                             item={item}
-                            updateProduct={updateProduct}
+                            updateHistory={updateHistory}
                             onChange={inputsChange}
                             mod="update"
                             checkInputs={checkInputs}
                             addItem={addItem}
+                            isNumeric={isNumeric}
                             />
                         </td>
                          <td>
-                            <DeleteModal 
-                            className="modal" 
-                            item={item}
-                            deleteProduct={deleteProduct}
-                            
-                            />
-                        </td>    
+                            <Button close  onClick=
+                            {deleteHistory.bind(this, item.id)} />
+                        </td>
+                        
                     </tr>
                     ))}
                     pagesspan={4}

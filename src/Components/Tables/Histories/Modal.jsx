@@ -29,21 +29,41 @@ class ModifyModal extends Component {
     };  
 
     confirmed = (e) => {
-        this.setState({ respons: this.props.checkInputs()});
-        if(!this.props.checkInputs()) {
-            if(this.props.mod === 'add') {
-                this.props.addProduct(e)
-                this.setState({ open: false });
-            } else  if(this.props.mod === 'update'){
-                this.props.updateProduct(e, this.props.item)
-                this.setState({ open: false });
+
+        if(this.props.mod === 'add') {
+
+            if(!this.props.checkInputs()) {
+                if(this.props.isNumeric()) {
+                    this.setState({respons:'The value of the constly, price, quantity and priority must be a number!'});
+                } else {
+                    this.setState({ respons: '' });
+                    this.props.addHistory(e)
+                    this.setState({ open: false });
+                }
+            } else {
+                this.setState({respons:'Fill all the fields correctly!'});
+                return;
+            }
+
+        } else  if(this.props.mod === 'update'){
+            if(!this.props.checkInputs()) {
+                if(this.props.isNumeric()) {
+                    this.setState({respons:'The value of the constly, price, quantity and priority must be a number!'});
+                } else {
+                    this.setState({ respons: '' });
+                    this.props.updateHistory(e, this.props.item)
+                    this.setState({ open: false });
+                }
+            } else {
+                this.setState({respons:'Fill all the fields correctly!'});
+                return;
             }
         }
     }
 
     render() {
         const { open, respons } = this.state;
-        const data = ['name', 'type', 'constly', 'price', 'quantity', 'date1', 'date2'];
+        const data = ['name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'sender', 'shop', 'exportDate'];
         const { onChange, mod, item} = this.props;
 
         let renderData;
@@ -53,7 +73,7 @@ class ModifyModal extends Component {
                     <span> &#10133;</span>
                 </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
-                    <h3 color="warning"> Enter new product params </h3>
+                    <h3 color="warning"> Enter new history params </h3>
                     <form>
                         {data.map(element => ( 
                             <input onChange={onChange} name={element} placeholder={element} type={(element === 'date1' || element === 'date2' ? "date" : "text")}  required/> 
@@ -69,7 +89,7 @@ class ModifyModal extends Component {
                     <span>&#9997;</span>
                 </Button>
                 <Modal open={open} onClose={this.onCloseModal} center>
-                    <h3 color="warning"> Modify product params </h3>
+                    <h3 color="warning"> Modify history params </h3>
                     <form>
                         {data.map(element => ( 
                             <input onChange={onChange} defaultValue={item[element]} name={element} type={(element === 'date1' || element === 'date2' ? "date" : "text")} required/> 

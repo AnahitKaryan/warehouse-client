@@ -156,7 +156,7 @@ class TableSenders extends Component {
                         Senders Table
                         <ModifyModal 
                             className="modal" 
-                            respons={this.state.respons}                       addShop={this.addSender}
+                            respons={this.state.respons}            addSender={this.addSender}
                             onChange={this.inputsChange}
                             checkInputs ={this.checkInputs}
                             mod="add"

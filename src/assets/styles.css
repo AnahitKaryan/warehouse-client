@@ -79,10 +79,10 @@ span {
     height: 90vh;
 }
 .buttonStyles {
-  border: "1px solid #ccc";
-  background: "#fff";
-  font-size: "1em";
-  padding: 10;
-  margin: 5;
-  width: 70;
+    border: "1px solid #ccc";
+    background: "#fff";
+    font-size: "1em";
+    padding: 10;
+    margin: 5;
+    width: 70;
 }

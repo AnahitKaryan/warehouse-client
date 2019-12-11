@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Login } from './Components/Login';
 import { Register } from './Components/Register';
 import { Home } from './Components/Home';
+import { TableHistories } from './Components/Tables/Histories/TableHistories';
 import { TableProducts } from './Components/Tables/Products/TableProducts';
 import { TableShops } from './Components/Tables/Shops/TableShops';
 import { TableSenders } from './Components/Tables/Senders/TableSenders';
@@ -18,6 +19,7 @@ class App extends React.Component {
             <Route path='/productsList' component={TableProducts}/>
             <Route path='/shopsList' component={TableShops}/>
             <Route path='/sendersList' component={TableSenders}/>
+            <Route path='/historiesList' component={TableHistories}/>
         </BrowserRouter>
         );
     }

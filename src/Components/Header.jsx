@@ -75,6 +75,12 @@ class Header extends Component {
                             <NavItem className="mr-5">
                                 <NavLink className="text-white" href="/ShopsList">Shops</NavLink>
                             </NavItem>
+                            <NavItem className="mr-5">
+                                <NavLink className="text-white" href="/HistoriesList">History</NavLink>
+                            </NavItem>
+                            <NavItem className="mr-5">
+                                <NavLink className="text-white" href="/Best">Best &#9734;</NavLink>
+                            </NavItem>
                          </Nav>
                          <Button className="mr-5" color="warning" onClick={this.logOut}>Log Out</Button>
                     </Collapse>
