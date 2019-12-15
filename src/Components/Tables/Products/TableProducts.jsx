@@ -24,7 +24,7 @@ class TableProducts extends Component {
         };
         this.fetchCall = fetchCall.bind(this);
     }
-
+    
     componentDidMount() {
         this.fetchCall('products', 'GET')
         .then(response => response.json())

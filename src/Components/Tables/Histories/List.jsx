@@ -13,6 +13,7 @@ class  List extends Component {
     render () {
 
         const theadData = ['N', 'name', 'type', 'constly', 'price', 'quantity', 'status', 'date1', 'date2', 'priority', 'sender', 'shop', 'exportDate', 'Modify', 'Delete'];
+        
         const { histories, sort, updateHistory, inputsChange, deleteHistory , checkInputs, addItem, isNumeric } = this.props;
         
         return (

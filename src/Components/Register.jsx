@@ -16,13 +16,15 @@ class Register extends Component {
         gemus: 'female',
         email: '',
         password: '',
+        repeatPassword: '',
         errors: {
             name: 'The name must contain at least one character and begin with a capital letter!',
             surname: 'The surname must contain at least one character and begin with a capital letter!',
             birthdate: 'Birthdate is requared value!',
             gemus: '',
             email: 'Email is not valid!',
-            password: 'Password must be 5 characters long!'
+            password: 'Password must be 5 characters long!',
+            repeatPassword: 'Password repetition must be 5 characters long!'
         },
         valid: false,
         respons: '',
@@ -66,6 +68,10 @@ class Register extends Component {
                 errors.password =
                 value.length < 5 ? 'Password must be 5 characters long!' : '';
                 break;
+            case 'repeatPassword':
+                errors.repeatPassword =
+                value.length < 5 ? 'Password repetition must be 5 characters long!' : '';
+                break;
             default:
                 break;
         }
@@ -92,6 +98,10 @@ class Register extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.validateForm(this.state.errors)) {
+            if(this.state.password !== this.state.repeatPassword) {
+                this.setState({respons: 'Password repetition does not match password'});
+                return;
+            }
             console.info('Valid Form')
             const newUser = {
                 "name": this.state.name,
@@ -163,6 +173,19 @@ class Register extends Component {
                     />
                     {errors.password.length > 0 &&
                     <span className="user-data-form__span-error">{errors.password}</span>}
+                </FormGroup>
+                <FormGroup>
+                    <Label className="user-data-form__label" for="exampleRepeatPassword">Repeat password</Label>
+                     <Input
+                        className="user-data-form__input"
+                        type="password"
+                        placeholder="Enter repeat password"
+                        name="repeatPassword"
+                        onChange={this.inputsChange}
+                        required
+                    />
+                    {errors.repeatPassword.length > 0 &&
+                    <span className="user-data-form__span-error">{errors.repeatPassword}</span>}
                 </FormGroup>
                 <FormGroup>
                     <Label className="user-data-form__label" >Name</Label>

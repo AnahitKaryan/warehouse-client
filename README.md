@@ -66,6 +66,9 @@ Open [http://localhost:5000] to view it in the browser.<br />
 │   │   |        ├── w3.jpg
 │   │   |        └── warehouse.svg
 │   │   ├── Components
+│   │   |   ├── Bests - best partner component
+│   │   |   |    ├── Best.jsx - best sender and shop
+│   │   |   |    └── bestsList.jsx - beasts list component
 │   │   |   ├── Tables - all tables
 │   │   |   |    ├── Products
 │   │   |   |    |   ├── List.jsx - products data create
@@ -86,7 +89,6 @@ Open [http://localhost:5000] to view it in the browser.<br />
 │   │   |   |        ├── List.jsx - shops data create
 │   │   |   |        ├── Modal.jsx- shops data change
 │   │   |   |        └── TableShops.jsx - shops table
-│   │   |   ├── Best.jsx - best partner component
 │   │   |   ├── Carousel.jsx - create slide component
 │   │   |   ├── Footer.jsx - create footer component
 │   │   |   ├── Header.jsx - create header component

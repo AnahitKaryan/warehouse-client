@@ -58,7 +58,7 @@ class Header extends Component {
                         />
                         Warehouse
                     </NavbarBrand>
-                    <NavbarToggler onClick={toggle} />
+                    <NavbarToggler onClick={toggle}/>
                     <Collapse isOpen={isOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem className="mr-5">
@@ -76,8 +76,10 @@ class Header extends Component {
                             <NavItem className="mr-5">
                                 <NavLink className="text-white" href="/best">Best &#9734;</NavLink>
                             </NavItem>
-                         </Nav>
-                         <Button className="mr-5" color="warning" onClick={this.logOut}>Log Out</Button>
+                            <NavItem className="ml-5">
+                                <Button color="warning" className="ml-5" onClick={this.logOut}>Log Out</Button>
+                            </NavItem>
+                        </Nav>
                     </Collapse>
                 </Navbar>       
             </Container>

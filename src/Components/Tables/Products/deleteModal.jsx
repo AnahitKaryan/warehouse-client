@@ -12,6 +12,8 @@ class DeleteModal extends Component {
             respons: '',
             senders: [],
             shops: [],
+            quantitySelect : [],
+            quantityValue: this.props.item.quantity,
             senderValue: 'null',
             shopValue: 'null',
             status: this.props.item.status,
@@ -31,6 +33,12 @@ class DeleteModal extends Component {
         .then(response => response.json())
         .then(shops => this.setState({shops}))
         .catch(error => console.log('Fetch Error :-S', error));
+
+        const quantityArr = [];
+        for(let i = this.props.item.quantity; i >= 1; --i) { 
+            quantityArr.push(i);
+        }
+        this.setState({quantitySelect: quantityArr})
     }
 
     onOpenModal = () => {
@@ -52,6 +60,11 @@ class DeleteModal extends Component {
         this.setState({ shopValue: e.target.value });
     }
 
+
+    quantityChange = (e) => {
+        this.setState({ quantityValue: e.target.value });
+    }
+
     handleClick = (e) => {
         if(e.target.id === 'toShop') {
             this.setState({
@@ -70,6 +83,12 @@ class DeleteModal extends Component {
                                 {this.state.shops.map((item) => (
                                     <option value={item.name}>{item.name}</option>
                                 ))} 
+                            </Input>
+                            <Label for="quantity">Specify quantity </Label>
+                            <Input type="select" name="select" id="quantity" onChange={this.quantityChange}>
+                                {this.state.quantitySelect.map((item) => (
+                                    <option value={item}>{item}</option>
+                                ))}
                             </Input>
                          </FormGroup>
             });
@@ -96,16 +115,15 @@ class DeleteModal extends Component {
         data.type = this.props.item.type;
         data.constly = this.props.item.constly;
         data.price = this.props.item.price;
-        data.quantity = this.props.item.quantity;
         data.date1 = this.props.item.date1;
         data.date2 = this.props.item.date2;
         data.priority = this.props.item.priority;
-        
+
         data.status = this.state.status;
         data.sender = this.state.senderValue;
         data.shop = this.state.shopValue;
+        data.quantity = this.state.quantityValue;
         data.exportDate = new Date();
-        console.log('dataaaa' + data)
 
         if(this.state.forceDelete) {
             this.fetchCall('histories', 'POST', data)
@@ -119,8 +137,33 @@ class DeleteModal extends Component {
             });
         }
 
-        this.props.deleteProduct(this.props.item.id);
-        this.setState({ open: false });
+        if(this.props.item.quantity === this.state.quantityValue) {
+            this.props.deleteProduct(this.props.item.id);
+        } else {
+            const updateData = {};
+            updateData.id = this.props.item.id;
+            updateData.name = this.props.item.name;
+            updateData.type = this.props.item.type;
+            updateData.constly = this.props.item.constly;
+            updateData.price = this.props.item.price;
+            updateData.quantity =  this.props.item.quantity - this.state.quantityValue;
+            updateData.status = this.props.item.status;
+            updateData.date1 = this.props.item.date1;
+            updateData.date2 = this.props.item.date2;
+            updateData.priority = this.props.item.priority;
+
+            this.fetchCall('products', 'PUT', updateData )
+            .then((res) =>  {
+                if (res.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +  res.status);
+                    return;
+                }
+            }).catch(function(err) {
+                console.log('Fetch Error :-S', err);
+            });
+        }
+            
+        this.setState({ open: false }); 
     }
 
     render() {
