@@ -60,6 +60,7 @@ Open [http://localhost:5000] to view it in the browser.<br />
 │   │   |   └── images - all images
 │   │   |        ├── product.jpg
 │   │   |        ├── sender.jpg
+│   │   |        ├── user.png
 │   │   |        ├── shop.jpg
 │   │   |        ├── w1.jpg
 │   │   |        ├── w2.jpg
@@ -67,39 +68,41 @@ Open [http://localhost:5000] to view it in the browser.<br />
 │   │   |        └── warehouse.svg
 │   │   ├── Components
 │   │   |   ├── Bests - best partner component
-│   │   |   |    ├── Best.jsx - best sender and shop
+│   │   |   |    ├── best.jsx - best sender and shop
 │   │   |   |    └── bestsList.jsx - beasts list component
 │   │   |   ├── Tables - all tables
 │   │   |   |    ├── Products
-│   │   |   |    |   ├── List.jsx - products data create
-│   │   |   |    |   ├── Modal.jsx - products data change 
+│   │   |   |    |   ├── list.jsx - products data create
+│   │   |   |    |   ├── modal.jsx - products data change 
 │   │   |   |    |   ├── deleteModal.jsx - product delete params 
-│   │   |   |    |   └── TableProducts.jsx - products table
+│   │   |   |    |   └── tableProducts.jsx - products table
 │   │   |   |    ├── Histories
-│   │   |   |    |   ├── List.jsx - histories data create
-│   │   |   |    |   ├── Modal.jsx - histories data change 
-│   │   |   |    |   └── TableHistoriess.jsx - histories table
+│   │   |   |    |   ├── list.jsx - histories data create
+│   │   |   |    |   └── tableHistoriess.jsx - histories table
 │   │   |   |    ├── paginacion
-│   │   |   |    |   ├── PaginacionTabla.jsx - create table paginacion
+│   │   |   |    |   ├── paginacionTabla.jsx - create table paginacion
 │   │   |   |    ├── Senders
-│   │   |   |    |   ├── List.jsx - senders data create
-│   │   |   |    |   ├── Modal.jsx - senders data change
-│   │   |   |    |   └── TableSenders.jsx - senders table
+│   │   |   |    |   ├── list.jsx - senders data create
+│   │   |   |    |   ├── modal.jsx - senders data change
+│   │   |   |    |   └── tableSenders.jsx - senders table
 │   │   |   |    └── Shops
-│   │   |   |        ├── List.jsx - shops data create
-│   │   |   |        ├── Modal.jsx- shops data change
-│   │   |   |        └── TableShops.jsx - shops table
-│   │   |   ├── Carousel.jsx - create slide component
-│   │   |   ├── Footer.jsx - create footer component
-│   │   |   ├── Header.jsx - create header component
-│   │   |   ├── Home.jsx - create home component
-│   │   |   ├── Login.jsx - create login form
-│   │   |   └── Register.jsx - create register form
+│   │   |   |        ├── list.jsx - shops data create
+│   │   |   |        ├── modal.jsx- shops data change
+│   │   |   |        └── tableShops.jsx - shops table
+│   │   |   ├── carousel.jsx - create slide component
+│   │   |   ├── footer.jsx - create footer component
+│   │   |   ├── header.jsx - create header component
+│   │   |   ├── home.jsx - create home component
+│   │   |   ├── login.jsx - create login form
+│   │   |   ├── forgotPassword.jsx - forgot password page
+│   │   |   ├── userPage.jsx - user personal information page
+│   │   |   ├── notFound.jsx - notFount page
+│   │   |   └── register.jsx - create register form
 │   │   ├── configs - all files configuration settings
 │   │   |   └── config.js -Contains application configuration settings
 │   │   ├── DAO - Fetch request implementetion.
 │   │   |   └── DAO.js
-│   │   ├── App.js - project primary file 
+│   │   ├── app.js - project primary file 
 │   │   ├── index.css - base css file.
 │   │   ├── .eslintrc.json - eslint configuretions.
 │   │   └── index.js - base js file.
